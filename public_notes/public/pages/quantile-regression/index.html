@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Quantile regression | Ag.</title>
+<meta name="keywords" content="" />
+<meta name="description" content="Resources Quantile regression - Wikipedia
+https://sites.google.com/site/econometricsacademy/econometrics-models/quantile-regression
+Pretty good. Watch the videos. &#43; Has a lot of extra stuff that i have not looked at yet. &#43; goes into the maths. The model A linear model:
+$$y_i = x_i \beta_q &#43; \epsilon_i$$
+a \beta for every quantile.
+To compute OLS, we use the following loss function:
+$$\min\sum e_i^2$$ Use a new loss function that penalizes differently for under estimation and over estimation.">
+<meta name="author" content="srDem">
+<link rel="canonical" href="https://example.com/pages/quantile-regression/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.49b1c3611e5e823e974d0b9b3e1101617fce26c004757161abb1a1e4af3ff85c.css" integrity="sha256-SbHDYR5egj6XTQubPhEBYX/OJsAEdXFhq7Gh5K8/&#43;Fw=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.5b9ae0304f93db6cc493f51846f012428af399c614b4f2fbdb7fa59dd4d5ef5b.js" integrity="sha256-W5rgME&#43;T22zEk/UYRvASQorzmcYUtPL723&#43;lndTV71s="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://example.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://example.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://example.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://example.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://example.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="google-site-verification" content="0lS7TDuDPz3S26bF27ex8mccoHVHOpQIC5GOXHf33Uk" />
+<meta name="generator" content="Hugo 0.121.2">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Quantile regression" />
+<meta property="og:description" content="Resources Quantile regression - Wikipedia
+https://sites.google.com/site/econometricsacademy/econometrics-models/quantile-regression
+Pretty good. Watch the videos. &#43; Has a lot of extra stuff that i have not looked at yet. &#43; goes into the maths. The model A linear model:
+$$y_i = x_i \beta_q &#43; \epsilon_i$$
+a \beta for every quantile.
+To compute OLS, we use the following loss function:
+$$\min\sum e_i^2$$ Use a new loss function that penalizes differently for under estimation and over estimation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/pages/quantile-regression/" /><meta property="article:section" content="pages" />
+<meta property="article:published_time" content="2024-01-23T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-01-23T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Quantile regression"/>
+<meta name="twitter:description" content="Resources Quantile regression - Wikipedia
+https://sites.google.com/site/econometricsacademy/econometrics-models/quantile-regression
+Pretty good. Watch the videos. &#43; Has a lot of extra stuff that i have not looked at yet. &#43; goes into the maths. The model A linear model:
+$$y_i = x_i \beta_q &#43; \epsilon_i$$
+a \beta for every quantile.
+To compute OLS, we use the following loss function:
+$$\min\sum e_i^2$$ Use a new loss function that penalizes differently for under estimation and over estimation."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Pages",
+      "item": "https://example.com/pages/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Quantile regression",
+      "item": "https://example.com/pages/quantile-regression/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Quantile regression",
+  "name": "Quantile regression",
+  "description": "Resources Quantile regression - Wikipedia\nhttps://sites.google.com/site/econometricsacademy/econometrics-models/quantile-regression\nPretty good. Watch the videos. + Has a lot of extra stuff that i have not looked at yet. + goes into the maths. The model A linear model:\n$$y_i = x_i \\beta_q + \\epsilon_i$$\na \\beta for every quantile.\nTo compute OLS, we use the following loss function:\n$$\\min\\sum e_i^2$$ Use a new loss function that penalizes differently for under estimation and over estimation.",
+  "keywords": [
+    
+  ],
+  "articleBody": "Resources Quantile regression - Wikipedia\nhttps://sites.google.com/site/econometricsacademy/econometrics-models/quantile-regression\nPretty good. Watch the videos. + Has a lot of extra stuff that i have not looked at yet. + goes into the maths. The model A linear model:\n$$y_i = x_i \\beta_q + \\epsilon_i$$\na \\beta for every quantile.\nTo compute OLS, we use the following loss function:\n$$\\min\\sum e_i^2$$ Use a new loss function that penalizes differently for under estimation and over estimation.\nIt is apparently linear/proportional(? idk the term)\nTo get 5%ile\npenalize underestimation and overestimation in the ratio 5:95.\nFor quantile $$q$$,\n$$\\min q\\sum_{y_i \\ge \\hat{y_i}} |e_i| + (1-q)\\sum_{y_i \u003c \\hat{y_i}}|e_i|$$ It is easy to see that for the median,\n$$\\min \\sum |e_i|$$ Interpretation Pretty much the same as OLS.\nThe \\beta s turn out to be the marginal effects\n$$\\frac{\\partial Q(y | x)}{\\partial x_i} = \\beta_{qi}$$ at that quantile.\nIt is sorta nice with some what non linear patterns\nWikipedia claims:\nEven when the actual function is non linear, given that the quantile regression still chooses the best linear approximation at that point,\nthe slope parameters $$\\beta_q$$ of the linear model can be interpreted as weighted averages of the [partial] derivatives.\nDunno, where weighted average comes from though.\nBasically, green light for causal inference B-).\nHypothesis testing The \\betas are asymptotically normal, with some scary looking standard errors.\nUse bootstrapping to calculate confidence intervals. Computation [[Linear Programming]].\nThe object function is the loss function.\n$$\\min q\\sum_{y_i \\ge \\hat{y_i}} |e_i| + (1-q)\\sum_{y_i \u003c \\hat{y_i}}|e_i|$$\nwhere $$e_i = y_i - x_i\\beta_q$$\nIt is indeed linear.\nLinear in parameters, remember?\n(we can actually use LP to do OLS also, btw. ) Fancy (correct) Specification Objective fn\n$$\\underset{\\beta,u^{+},u^{-}}{\\min} \\quad{q1^{’}u^{+}+(1-q)1^{’}u^{-}}$$ such that,\n$$X\\beta+u^{+}-u^{-}=Y\\ \\text{non-negativity constraints on u s}.$$\nNot sure how the betas are made to be over the entire real line\nmaan, you go do LP again. Note that,\n$u^+$ is the underestimation\n$u^-$ is the overestimation.\nFor q = 0.5 The median makes calculations sorta easy\nObjective function\n$$\\min_\\beta 1’|Y - X\\beta|$$ We can rewrite that as,\njust a linear algebra trick for converting mods.\n$$\\min_\\beta 1’t$$\nwhere,\n$$-t \\le Y - X\\beta \\le t $$ R implementation library(quantreg) # OLS regression olsreg \u003c- lm(Y ~ X, data=mydata) # Quantile regression quantreg25 \u003c- rq(Y ~ X, data=mydata, tau=0.25) # Plotting data quantreg.all \u003c- rq(Y ~ X, tau = seq(0.05, 0.95, by = 0.05), data=mydata) quantreg.plot \u003c- summary(quantreg.all) plot(quantreg.plot) Math fax In general,\n$$\\bar{x} = \\argmin_y \\sum (x - y)^2 $$\n$$\\text{median} = \\argmin_y \\sum |x - y|$$\nThis gives you the MLE for a laplace distribution in the same way the least squares gives the MLE for a normal distribution.\nAssumptions I really don’t them, but i guess they are the gauss-markov ones only?\nand for significance testing, $$\\epsilon_i \\sim N(0, \\sigma^2)$$\nEquivariance Invariant to monotonic transformations,\n$$Q_{h(Y)|X}(q|X) = h(Q_{Y|X}(q|X))$$ Example,\ntake $$Q_{Y|X}(q)=X\\beta_{q}$$\nthen,\n$$Q_{exp(Y)|X}(q)=\\exp(X\\beta_{q})$$\nThe mean regression does not work,\n$$\\operatorname{E} (\\ln(Y))\\neq \\ln(\\operatorname{E}(Y)).$$\nMean regression only works for linear transforms, while quantile ones can handle any monotonic transformation. Pretty cool.\nHeteroskedasticity Panel data methods Because quantiles are not linear operators like expectations,\n$$Q_{a+b}(q) \\ne Q_a(q) + Q_b(q)$$ Demeaning (or differencing) is not possible.\nSo, fixed effects require something fancy.\nread the above pdf. Misc Expectiles.\nThe quantiles but with squared loss instead of deviation.\nwhat does it even mean?\nnothing. bootstrapped quantile regression (BQR) analysis.\nbootstrap amplifies the outliers. Quantile regression averaging\n[[Composite Quantile Regression]]\n",
+  "wordCount" : "564",
+  "inLanguage": "en",
+  "datePublished": "2024-01-23T00:00:00Z",
+  "dateModified": "2024-01-23T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "srDem"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://example.com/pages/quantile-regression/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Ag.",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://example.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://example.com/" accesskey="h" title="Ag. (Alt + H)">Ag.</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://example.com/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://example.com/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://example.com/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://example.com/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    
+    <h1 class="post-title">
+      Quantile regression
+    </h1>
+    <div class="post-meta">&lt;span title=&#39;2024-01-23 00:00:00 &#43;0000 UTC&#39;&gt;January 23, 2024&lt;/span&gt;&amp;nbsp;·&amp;nbsp;3 min&amp;nbsp;·&amp;nbsp;srDem
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="resources">Resources<a hidden class="anchor" aria-hidden="true" href="#resources">#</a></h1>
+<ul>
+<li>
+<p><a href="https://en.m.wikipedia.org/wiki/Quantile_regression">Quantile regression - Wikipedia</a></p>
+</li>
+<li>
+<p><a href="https://sites.google.com/site/econometricsacademy/econometrics-models/quantile-regression">https://sites.google.com/site/econometricsacademy/econometrics-models/quantile-regression</a></p>
+<ul>
+<li>Pretty good. Watch the videos.</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="/assets/l1_1705778240731_0.pdf" alt="L1.pdf"  />
+</p>
+<pre><code>+ Has a lot of extra stuff that i have not looked at yet.
+</code></pre>
+<p><img loading="lazy" src="/assets/lec9_1705798395667_0.pdf" alt="lec9.pdf"  />
+</p>
+<pre><code>+ goes into the maths.
+</code></pre>
+<h1 id="the-model">The model<a hidden class="anchor" aria-hidden="true" href="#the-model">#</a></h1>
+<ul>
+<li>
+<p>A linear model:</p>
+<ul>
+<li>
+<p>$$y_i = x_i \beta_q + \epsilon_i$$</p>
+</li>
+<li>
+<p>a \beta for every quantile.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>To compute OLS, we use the following loss function:</p>
+<ul>
+<li>$$\min\sum e_i^2$$</li>
+</ul>
+</li>
+<li>
+<p>Use a new loss function that penalizes differently for under estimation and over estimation.</p>
+</li>
+<li>
+<p>It is apparently linear/proportional(? idk the term)</p>
+<ul>
+<li>
+<p>To get 5%ile</p>
+</li>
+<li>
+<p>penalize underestimation and overestimation in the ratio 5:95.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>For quantile $$q$$,</p>
+<ul>
+<li>$$\min q\sum_{y_i \ge \hat{y_i}} |e_i|  + (1-q)\sum_{y_i &lt; \hat{y_i}}|e_i|$$</li>
+</ul>
+</li>
+<li>
+<p>It is easy to see that for the median,</p>
+<ul>
+<li>$$\min \sum |e_i|$$</li>
+</ul>
+</li>
+</ul>
+<h1 id="interpretation">Interpretation<a hidden class="anchor" aria-hidden="true" href="#interpretation">#</a></h1>
+<ul>
+<li>
+<p>Pretty much the same as OLS.</p>
+</li>
+<li>
+<p>The \beta s turn out to be the <em>marginal effects</em></p>
+<ul>
+<li>$$\frac{\partial Q(y | x)}{\partial x_i} = \beta_{qi}$$</li>
+</ul>
+</li>
+<li>
+<p>at that quantile.</p>
+</li>
+<li>
+<p>It is sorta nice with some what non linear patterns</p>
+</li>
+</ul>
+<p><img loading="lazy" src="/assets/2024-01-20-11:45:19-screenshot_1705776334626_0.png" alt="2024-01-20-11:45:19-screenshot.png"  />
+</p>
+<ul>
+<li>
+<p>Wikipedia claims:</p>
+<ul>
+<li>
+<p>Even when the actual function is non linear, given that the quantile regression still chooses the best linear approximation at that <em>point</em>,</p>
+<ul>
+<li>
+<blockquote>
+<p>the slope parameters  $$\beta_q$$ of the linear model can be interpreted as weighted averages of the [partial] derivatives.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>Dunno, where weighted average comes from though.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Basically, green light for causal inference B-).</p>
+</li>
+</ul>
+<h1 id="hypothesis-testing">Hypothesis testing<a hidden class="anchor" aria-hidden="true" href="#hypothesis-testing">#</a></h1>
+<ul>
+<li>
+<p>The \betas are asymptotically normal, with some scary looking standard errors.</p>
+<ul>
+<li>Use bootstrapping to calculate confidence intervals.</li>
+</ul>
+</li>
+</ul>
+<h1 id="computation">Computation<a hidden class="anchor" aria-hidden="true" href="#computation">#</a></h1>
+<ul>
+<li>
+<p>[[Linear Programming]].</p>
+</li>
+<li>
+<p>The object function is the loss function.</p>
+<ul>
+<li>
+<p>$$\min q\sum_{y_i \ge \hat{y_i}} |e_i|  + (1-q)\sum_{y_i &lt; \hat{y_i}}|e_i|$$</p>
+</li>
+<li>
+<p>where $$e_i = y_i - x_i\beta_q$$</p>
+</li>
+<li>
+<p>It is indeed linear.</p>
+</li>
+<li>
+<p>Linear in <em>parameters</em>, remember?</p>
+<ul>
+<li>(we can actually use LP to do OLS also, btw. )</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h2 id="fancy-correct-specification">Fancy (correct) Specification<a hidden class="anchor" aria-hidden="true" href="#fancy-correct-specification">#</a></h2>
+<ul>
+<li>
+<p>Objective fn</p>
+<ul>
+<li>$$\underset{\beta,u^{+},u^{-}}{\min} \quad{q1^{&rsquo;}u^{+}+(1-q)1^{&rsquo;}u^{-}}$$</li>
+</ul>
+</li>
+<li>
+<p>such that,</p>
+</li>
+<li>
+<p>$$X\beta+u^{+}-u^{-}=Y\ \text{non-negativity constraints on u s}.$$</p>
+</li>
+<li>
+<p>Not sure how the betas are made to be over the entire real line</p>
+<ul>
+<li>maan, you go do LP again.</li>
+</ul>
+</li>
+<li>
+<p>Note that,</p>
+<ul>
+<li>
+<p>$u^+$ is the underestimation</p>
+</li>
+<li>
+<p>$u^-$ is the overestimation.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h2 id="for-q--05">For q = 0.5<a hidden class="anchor" aria-hidden="true" href="#for-q--05">#</a></h2>
+<ul>
+<li>
+<p>The median makes calculations sorta easy</p>
+</li>
+<li>
+<p>Objective function</p>
+<ul>
+<li>$$\min_\beta   1&rsquo;|Y - X\beta|$$</li>
+</ul>
+</li>
+<li>
+<p>We can rewrite that as,</p>
+<ul>
+<li>
+<p>just a linear algebra trick for converting mods.</p>
+</li>
+<li>
+<p>$$\min_\beta 1&rsquo;t$$</p>
+</li>
+</ul>
+</li>
+<li>
+<p>where,</p>
+<ul>
+<li>$$-t  \le Y - X\beta \le t $$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h2 id="r-implementation">R implementation<a hidden class="anchor" aria-hidden="true" href="#r-implementation">#</a></h2>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(quantreg)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># OLS regression</span>
+</span></span><span style="display:flex;"><span>olsreg <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(Y <span style="color:#f92672">~</span> X, data<span style="color:#f92672">=</span>mydata)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Quantile regression</span>
+</span></span><span style="display:flex;"><span>quantreg25 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rq</span>(Y <span style="color:#f92672">~</span> X, data<span style="color:#f92672">=</span>mydata, tau<span style="color:#f92672">=</span><span style="color:#ae81ff">0.25</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Plotting data</span>
+</span></span><span style="display:flex;"><span>quantreg.all <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rq</span>(Y <span style="color:#f92672">~</span> X, tau <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">0.05</span>, <span style="color:#ae81ff">0.95</span>, by <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>), data<span style="color:#f92672">=</span>mydata)
+</span></span><span style="display:flex;"><span>quantreg.plot <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">summary</span>(quantreg.all)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(quantreg.plot)
+</span></span></code></pre></div><h1 id="math-fax">Math fax<a hidden class="anchor" aria-hidden="true" href="#math-fax">#</a></h1>
+<ul>
+<li>
+<p>In general,</p>
+</li>
+<li>
+<p>$$\bar{x} = \argmin_y \sum (x - y)^2 $$</p>
+</li>
+<li>
+<p>$$\text{median} = \argmin_y \sum |x - y|$$</p>
+</li>
+<li>
+<p>This gives you the MLE for a laplace distribution in the same way the least squares gives the MLE for a normal distribution.</p>
+</li>
+</ul>
+<h1 id="assumptions">Assumptions<a hidden class="anchor" aria-hidden="true" href="#assumptions">#</a></h1>
+<ul>
+<li>
+<p>I really don&rsquo;t them, but i guess they are the gauss-markov ones only?</p>
+</li>
+<li>
+<p>and for significance testing, $$\epsilon_i \sim N(0, \sigma^2)$$</p>
+</li>
+</ul>
+<h1 id="equivariance">Equivariance<a hidden class="anchor" aria-hidden="true" href="#equivariance">#</a></h1>
+<ul>
+<li>
+<p>Invariant to monotonic transformations,</p>
+<ul>
+<li>$$Q_{h(Y)|X}(q|X) = h(Q_{Y|X}(q|X))$$</li>
+</ul>
+</li>
+<li>
+<p>Example,</p>
+<ul>
+<li>
+<p>take $$Q_{Y|X}(q)=X\beta_{q}$$</p>
+</li>
+<li>
+<p>then,</p>
+</li>
+<li>
+<p>$$Q_{exp(Y)|X}(q)=\exp(X\beta_{q})$$</p>
+</li>
+</ul>
+</li>
+<li>
+<p>The mean regression does not work,</p>
+<ul>
+<li>
+<p>$$\operatorname{E} (\ln(Y))\neq \ln(\operatorname{E}(Y)).$$</p>
+</li>
+<li>
+<p>Mean regression only works for linear transforms, while quantile ones can handle any monotonic transformation. Pretty cool.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="heteroskedasticity">Heteroskedasticity<a hidden class="anchor" aria-hidden="true" href="#heteroskedasticity">#</a></h1>
+<h1 id="panel-data-methods">Panel data methods<a hidden class="anchor" aria-hidden="true" href="#panel-data-methods">#</a></h1>
+<p><img loading="lazy" src="/assets/simpleqrpanel_ej_1705785570515_0.pdf" alt="SimpleQRpanel_EJ.pdf"  />
+</p>
+<ul>
+<li>
+<p>Because quantiles are not linear operators like expectations,</p>
+<ul>
+<li>$$Q_{a+b}(q) \ne Q_a(q) + Q_b(q)$$</li>
+</ul>
+</li>
+<li>
+<p>Demeaning (or differencing)  is not possible.</p>
+</li>
+<li>
+<p>So, fixed effects require something fancy.</p>
+<ul>
+<li>read the above pdf.</li>
+</ul>
+</li>
+</ul>
+<h1 id="misc">Misc<a hidden class="anchor" aria-hidden="true" href="#misc">#</a></h1>
+<ul>
+<li>
+<p>Expectiles.</p>
+<ul>
+<li>
+<p>The quantiles but with squared loss instead of deviation.</p>
+</li>
+<li>
+<p>what does it even mean?</p>
+<ul>
+<li>nothing.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>bootstrapped quantile regression (BQR) analysis.</p>
+<ul>
+<li>bootstrap amplifies the outliers.</li>
+</ul>
+</li>
+<li>
+<p>Quantile regression averaging</p>
+</li>
+<li>
+<p>[[Composite Quantile Regression]]</p>
+</li>
+</ul>
+
+
+  </div>
+  
+
+
+   
+
+   
+
+   
+
+   
+      
+   
+
+   
+      
+   
+
+   
+
+   
+      
+   
+
+
+
+
+<hr>
+  <aside>
+    <h3>Linked References</h3>
+    <div class="backlinks">
+      <ul>
+       
+          <p class="capitalize"><a style="color: var(--link);" href="/pages/single-index-models/">Single Index Models</a></p>
+       
+          <p class="capitalize"><a style="color: var(--link);" href="/pages/tenet-model/">TENET Model</a></p>
+       
+          <p class="capitalize"><a style="color: var(--link);" href="/pages/var/">VaR</a></p>
+       
+     </ul>
+    </div>
+  </aside>
+
+<br>
+<aside class="related">
+  </aside>
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://example.com/">Ag.</a></span>
+    <br>
+    <span>
+        Powered by
+        
+        
+       <a href="https://github.com/sawhney17/logseq-schrodinger" rel="noopener" target="_blank">Logseq Schrödinger</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

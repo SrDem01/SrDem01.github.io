@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Pages on Ag.</title>
+    <link>https://example.com/pages/</link>
+    <description>Recent content in Pages on Ag.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://example.com/pages/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kernel Regression</title>
+      <link>https://example.com/pages/kernel-regression/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/pages/kernel-regression/</guid>
+      <description>Resources {{video https://www.youtube.com/watch?v=wBVSbVktLIY}} What is a kernel? The linear algebra one.
+So, the idea is that you can compute some dot product of the feature space with a function of the original vectors.
+This function is called the kernel function.
+$$k(x_i, x_j) = \phi(x_i)&amp;rsquo;\phi(x_j)$$ In linear regression Take a function of the data $\phi(X)$ as our feature vector.
+For estimation, we usually use
+$$\hat{\beta} = (X&amp;rsquo;X)^{-1}XY$$ If we had $\phi(X)$ as our feature vector instead,</description>
+    </item>
+    
+    <item>
+      <title>Portfolio Single Index Model</title>
+      <link>https://example.com/pages/portfolio-single-index-model/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/pages/portfolio-single-index-model/</guid>
+      <description>Resources Single-index model - Wikipedia Model It regresses the excess (over the risk free rate) return of a stock on the excess return of the market in the same period.
+This market return is captured by a single index. Something like nifty 100 or s&amp;amp;p 500.
+The regression eq:
+$$r_{it} - r_f = \alpha + \beta_i (r_{mt} - r_f) + \epsilon_{it}$$
+errors $$\sim N(0, \sigma^2)$$
+market term represents the movement of the market caused by macroeconomic changes.</description>
+    </item>
+    
+    <item>
+      <title>Quantile regression</title>
+      <link>https://example.com/pages/quantile-regression/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/pages/quantile-regression/</guid>
+      <description>Resources Quantile regression - Wikipedia
+https://sites.google.com/site/econometricsacademy/econometrics-models/quantile-regression
+Pretty good. Watch the videos. + Has a lot of extra stuff that i have not looked at yet. + goes into the maths. The model A linear model:
+$$y_i = x_i \beta_q + \epsilon_i$$
+a \beta for every quantile.
+To compute OLS, we use the following loss function:
+$$\min\sum e_i^2$$ Use a new loss function that penalizes differently for under estimation and over estimation.</description>
+    </item>
+    
+    <item>
+      <title>Single Index Models</title>
+      <link>https://example.com/pages/single-index-models/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/pages/single-index-models/</guid>
+      <description>Resources Semiparametric regression - Wikipedia + The important one + Quantile regression. Index Models A form of [[Semi Parametric Regression]]
+A link function on the linear combination.
+if the function is known, then non-linear least squares.
+Basically, [[Generalized Linear Models]].
+We have to estimate the link function and the \beta
+The main benefit is that there is no issue with high dimensionality
+The only non parametric part is the unknown link function.</description>
+    </item>
+    
+    <item>
+      <title>TENET Model</title>
+      <link>https://example.com/pages/tenet-model/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/pages/tenet-model/</guid>
+      <description>Concepts Quantile regression
+to estimate VaR Single Index Models
+to estimate CoVaR [[Networks]]
+[[Network Clustering]]
+Analyse the networks.
+Methodology Variables $X_{it}$ log returns of i&amp;rsquo;th company at t&amp;rsquo;th time.
+$M_{it}$ Macroeconomic variables
+$B_j$ Firm level characteristics.
+not time subscripted?
+whyyy?
+$VaR_{it}$ VaR of i&amp;rsquo;th company at t&amp;rsquo;th time.
+Measures &amp;ldquo;risk&amp;rdquo; of the company.
+Higher values means higher risk.
+Usually estimated at 0.05 level.
+Should we go higher?
+For more stability?</description>
+    </item>
+    
+    <item>
+      <title>the network project</title>
+      <link>https://example.com/pages/the-network-project/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/pages/the-network-project/</guid>
+      <description>Papers TENET Model </description>
+    </item>
+    
+    <item>
+      <title>VaR</title>
+      <link>https://example.com/pages/var/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/pages/var/</guid>
+      <description>Value at Risk For a given $$p$$,
+it is the worst case scenario, discounting the other worse cases whose total probability is p. Basically, the quantile of the associated distributions of the return. Critisism Does not tell you what is the extent of the loss in case of the bad thing happens.
+Solution: Conditional VaR
+Also, called Expected Shortfall.
+The conditional comes from conditioning on the VaR breach.
+The expected value of the returns given a VaR breach, where X is the returns</description>
+    </item>
+    
+  </channel>
+</rss>
