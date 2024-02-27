@@ -358,16 +358,7 @@ display: none;
 <pre class="r"><code>ViewsDate &lt;- read_xlsx(path,&quot;Sheet2&quot;)
 
 #pure assumption. This makes the most amount of sense. 
-ViewsDate$Date &lt;- as.Date(ViewsDate$Date, &quot;1900-01-01&quot;)
-
-summary(ViewsDate)</code></pre>
-<pre><code>##       Date            Traffic source         Views        
-##  Min.   :2020-10-18   Length:18904       Min.   :   0.00  
-##  1st Qu.:2021-07-22   Class :character   1st Qu.:   0.00  
-##  Median :2022-04-26   Mode  :character   Median :  18.62  
-##  Mean   :2022-04-26                      Mean   : 132.24  
-##  3rd Qu.:2023-01-29                      3rd Qu.:  95.76  
-##  Max.   :2023-11-03                      Max.   :8320.48</code></pre>
+ViewsDate$Date &lt;- as.Date(ViewsDate$Date, &quot;1900-01-01&quot;)</code></pre>
 <div id="views" class="section level1">
 <h1>Views</h1>
 <pre class="r"><code>exam_dates &lt;- list(&quot;Indore&quot; = as.numeric(as.Date(
@@ -413,7 +404,211 @@ wViewsDate &lt;- ViewsDate |&gt;
     select(Date, all_of(useful), Others, Total_Views) |&gt; 
     filter(Total_Views &gt; 0)
 
-wViewsDate |&gt; 
+wViewsDate |&gt; describe() |&gt; html()</code></pre>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style>
+.earrows {color:silver;font-size:11px;}
+fcap {
+font-family: Verdana;
+font-size: 12px;
+color: MidnightBlue
+}
+smg {
+font-family: Verdana;
+font-size: 10px;
+color: 󅒐
+}
+hr.thinhr { margin-top: 0.15em; margin-bottom: 0.15em; }
+span.xscript {
+position: relative;
+}
+span.xscript sub {
+position: absolute;
+left: 0.1em;
+bottom: -1ex;
+}
+</style>
+
+<title>wViewsDate Descriptives</title>
+<font color="MidnightBlue"><div align="center"><span style="font-weight:bold">wViewsDate <br><br> 8  Variables   1079  Observations</span></div></font>
+<hr class="thinhr">
+<span style="font-weight:bold">Date</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAAAn1BMVEUAAAABAQECAgIDAwMFBQUGBgYICAgJCQkKCgoLCwsMDAwNDQ0ODg4PDw8QEBARERESEhITExMUFBQVFRUWFhYXFxcYGBgZGRkaGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIjIyMkJCQlJSUmJiYnJycoKCgpKSkqKiorKyssLCw2NjY5OTlNTU1TU1NWVlZaWlra2tre3t7r6+v///9Rcz/vAAABQ0lEQVQ4je3VyXKCQBSF4RNIS5SggkzKTMNFSGLM8P7PltPqLmurXNBVd3k/fqAo8MNzimFJAnR7TgboHGhLoKmAugbKFig4mQYOHZD2QNLbiERhJw58WWI9uHgd1liKD0cCKIlg90T7lOiBKOG2IFpe0aq5wjnRjOiek4iF+GSS8MtzTmGNbDpydeCqsKfnasc1zbWGK7WQ4eQD245kRhvJqBBODoJphe3kwZu2WE0BnCmEGhPYF5RNA29U2CMGba5oa1DeYEW0IJpdUAvp2STNXXPXnbo+v03XF89HiCcd8fr8fBpSNamKVMnGglzOzozknmTKidkbtRZ2WsHXC2z0El7nwu08vHQbLLSPZ72DbdA2JspvsiFaZ//hww1ODKothOIyyTyvt/eHel6jur1HNc5dc9eduvgvUvJQ/0dRbPoDOdGNboKVKKcAAAAASUVORK5CYII=" alt="image" /></div>
+<pre style="font-size:85%;">
+          n    missing   distinct       Info       Mean        Gmd        .05 
+       1079          0       1079          1 2022-05-13        360 2021-01-12 
+        .10        .25        .50        .75        .90        .95 
+ 2021-03-07 2021-08-16 2022-05-13 2023-02-06 2023-07-18 2023-09-10  </pre>
+
+<style>
+.hmisctable399498 {
+border: none;
+font-size: 85%;
+}
+.hmisctable399498 td {
+text-align: right;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable399498 th {
+color: Black;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: bold;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable399498">
+ <tr><td><font color="MidnightBlue">lowest</font> :</td><td>2020-11-20</td><td>2020-11-21</td><td>2020-11-22</td><td>2020-11-23</td><td>2020-11-24</td></tr>
+ <tr><td><font color="MidnightBlue">highest</font>:</td><td>2023-10-30</td><td>2023-10-31</td><td>2023-11-01</td><td>2023-11-02</td><td>2023-11-03</td></tr>
+ </table>
+
+<hr class="thinhr">
+<span style="font-weight:bold">YouTube search</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAABa1BMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcICAgKCgoMDAwODg4PDw8QEBAREREVFRUXFxcZGRkbGxscHBweHh4fHx8gICAhISEjIyMmJiYnJycpKSkqKioxMTEyMjIzMzM0NDQ1NTU3Nzc4ODg5OTk+Pj5BQUFCQkJDQ0NERERGRkZHR0dISEhUVFRZWVlaWlpeXl5iYmJkZGRlZWVqampra2twcHB1dXV2dnZ5eXl7e3t9fX1/f3+GhoaKioqLi4uOjo6SkpKUlJSVlZWWlpaXl5ebm5udnZ2ioqKlpaWmpqaqqqqsrKyysrKzs7O1tbW2tra6urq7u7u8vLy/v7/CwsLDw8PFxcXJycnNzc3Ozs7Q0NDS0tLU1NTV1dXW1tbZ2dna2trb29vd3d3e3t7g4ODh4eHi4uLl5eXm5ubn5+fo6Ojr6+vs7Ozt7e3x8fHy8vL29vb4+Pj5+fn6+vr8/Pz9/f3+/v7///81+XucAAABS0lEQVQ4jc3Vx1PCQBTH8V8ITVSwYe8FBSvWWLBXwC52oxEVlYAKiO/PNwtxQBguXtbv4R1y2PnMZmceVFW9xpaa18PuOrqncKfyDEQUwjbpLfUlqUPwAL2QiWfMNZFzeTAfsKMRWrMcVVmXN+caQLVgg425JH4oKnR9iCiDnhRP/BPX++UJcklNM+zjPR8dFEUZxqLC8loteS6HsbY/5L8yNfgVDun3lQ4miSaNIn63AzfQxeW+Mq4VHw6IRlHYGBt1adoY5OGqRA+wuhl0F7kMmWmranfwcGX+nt3cUlPk0hOdluXI9MIFDxdgLsUCBHZ1QtvR+H48/Pz2dXZ+GrmV9mJR+UW+ibFjXuUU0WeYUo8/Byt/JiWemEvbRYWvvWQVQKfoHAloznIBQ65mU73B6mLrrFX0qeqaMeyzRrP77RiHf12Nc3ZtfAPd5ukLx5a9OwAAAABJRU5ErkJggg==" alt="image" /></div>
+<pre style="font-size:85%;">
+        n  missing distinct     Info     Mean      Gmd      .05      .10      .25 
+     1079        0      721        1    902.4    564.7    58.52   239.93   578.55 
+      .50      .75      .90      .95 
+   849.87  1167.08  1505.03  1727.27  </pre>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 7.98    9.31    15.96   19.95   22.61   ,  <font color="MidnightBlue">highest</font>: 3251.85 3460.66 3604.3  4052.51 6853.49</span>
+<hr class="thinhr">
+<span style="font-weight:bold">Browse features</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAABX1BMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYICAgLCwsMDAwQEBAVFRUWFhYaGhobGxscHBwdHR0eHh4fHx8gICAhISEjIyMkJCQlJSUmJiYnJycqKiotLS0vLy8wMDAxMTEyMjI0NDQ1NTU2NjY3Nzc4ODg6Ojo7Ozs8PDw9PT0+Pj4/Pz9AQEBBQUFCQkJDQ0NFRUVKSkpSUlJTU1NUVFRVVVVXV1dYWFhdXV1fX19hYWFkZGRnZ2dzc3N3d3d6enp8fHx/f3+AgICBgYGNjY2QkJCSkpKfn5+kpKSqqqqrq6u2tra4uLi7u7u8vLzCwsLDw8PFxcXGxsbIyMjKysrNzc3Pz8/R0dHS0tLU1NTV1dXX19fZ2dna2tre3t7h4eHj4+Pk5OTl5eXm5ubn5+fp6enq6urr6+vu7u7x8fHz8/P09PT19fX29vb39/f4+Pj5+fn6+vr8/Pz9/f3+/v7///+rruT1AAABQ0lEQVQ4jc3VR1PCQBiH8ReUiKLpakBJjBVFLNiwgajYsaKgIiogFiQW9vuPmzAm4eiMM5vnsIc9/eZ/eaFitg7limMCZLYJ18gxWa73BEBwnyClKcsV9QO4lo8JWuxZrikeu8QIQYs901UzXEKYJMYW5I2yaz6xC7vooWzeEel7nT+jU2gRjb16faSXaqS7vBvo5NclQN9VnTQKNVxUPD1uuaA9heoZR7jmFsDmgkhsEvxbuQ90WHgj6hK5JhcvuAGEAD3mlsKr20tnX7nQ7mXxJfX6WS1qmceLPaQhrYQK37USQk86vVzFX//rwreI4mns4hjsYlnsYjnsYvhWAJr3AEhyJ7g4RQVvoN9HuUWpI+hVB4U7TyjEyErPyPy92j060Xa7ODPAyOn4sKKoyQP1YTYaMy7dDXOUXPnLadyZxs8P5/wKArc2OR8AAAAASUVORK5CYII=" alt="image" /></div>
+<pre style="font-size:85%;">
+        n  missing distinct     Info     Mean      Gmd      .05      .10      .25 
+     1079        0      624        1    625.2    559.9    81.93   172.90   292.60 
+      .50      .75      .90      .95 
+   421.61   697.59  1360.86  1945.12  </pre>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 3.99    5.32    11.97   14.63   17.29   ,  <font color="MidnightBlue">highest</font>: 3547.11 3814.44 3843.7  3906.21 5788.16</span>
+<hr class="thinhr">
+<span style="font-weight:bold">Channel pages</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAABdFBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYICAgJCQkKCgoMDAwNDQ0ODg4PDw8SEhITExMVFRUXFxcYGBgZGRkaGhobGxscHBwdHR0iIiIkJCQmJiYnJycoKCgpKSkqKiorKysuLi4wMDAyMjIzMzM0NDQ2NjY3Nzc5OTk6Ojo9PT0/Pz9CQkJDQ0NFRUVKSkpMTExNTU1PT09QUFBSUlJbW1tfX19iYmJjY2NkZGRlZWVnZ2doaGhvb29xcXFycnJ1dXV2dnZ4eHh8fHyCgoKDg4OFhYWGhoaHh4eJiYmKioqLi4uMjIyOjo6QkJCRkZGTk5OWlpaYmJiZmZmenp6fn5+np6eoqKiqqqqwsLCzs7O0tLS2tra6urq9vb3FxcXGxsbIyMjJycnKysrOzs7Pz8/T09PV1dXY2Nja2trc3Nze3t7g4ODi4uLj4+Pk5OTl5eXn5+fp6enq6urr6+vt7e3w8PD29vb39/f4+Pj6+vr+/v7///9G48BvAAABWklEQVQ4jcXV50/CQBgG8JfSQpEWFUQExYUIOFBRxD1xoOLAgQPBhSIu8Fxw/7xXVkXgk4n3JM81ufQuv7xfDlApjy9ozIiiE6ML/slXRDmASxn0Yp8pYoK2foB3TDk/XLZh7GtQAvCNxLX/TM8kpcwVETgAkOqGLXomKbIr221xQtGlhXWKKCy7MtuLmoIpX/bohKorkYtnBPQs8RRLbA5zIraboJXCvOydJU+xohhcUWSozUtaUht2psIFXDsDX1RdB9ClqOIi9eNoX0CSf1JwZWdArOESg8tgecLYPCf9/PG/rmNiquHiDD2ganJ3aJSHce8SO34ad13i2EXh8Ntd+WXp++vcXFPJv7vIW6SRXVVtuX2WVQ0A4wiBaghAEALkXFjN103rHoxTfK8+NOuq591WRn3lnEce27n2JqkLI3Qm3CK01mpdrXgA04a9Xzs7zfnvZgtZvgEF4w0xZhyMywAAAABJRU5ErkJggg==" alt="image" /></div>
+<style>
+.hmisctable109548 {
+border: none;
+font-size: 74%;
+}
+.hmisctable109548 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable109548 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable109548">
+ <tr><th>n</th><th>missing</th><th>distinct</th><th>Info</th><th>Mean</th><th>Gmd</th><th>.05</th><th>.10</th><th>.25</th><th>.50</th><th>.75</th><th>.90</th><th>.95</th></tr>
+ <tr><td>1079</td><td>0</td><td>345</td><td>1</td><td>224.9</td><td>156.8</td><td> 50.54</td><td> 75.54</td><td>127.68</td><td>194.18</td><td>267.33</td><td>378.25</td><td>500.08</td></tr>
+ </table>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 7.98    9.31    18.62   19.95   21.28   ,  <font color="MidnightBlue">highest</font>: 1219.61 1232.91 1482.95 1703.73 1808.8 </span>
+<hr class="thinhr">
+<span style="font-weight:bold">Suggested videos</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAABhlBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsODg4QEBARERESEhITExMXFxcYGBgZGRkaGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIjIyMkJCQlJSUoKCgpKSkqKiorKyssLCwuLi4vLy8wMDAxMTEyMjI0NDQ2NjY3Nzc4ODg5OTk6Ojo7Ozs8PDw9PT0+Pj4/Pz9AQEBBQUFCQkJERERFRUVGRkZHR0dKSkpLS0tQUFBZWVlaWlpbW1tfX19gYGBhYWFjY2NkZGRmZmZpaWlra2tubm51dXV6enp+fn6Dg4OGhoaHh4eIiIiLi4uNjY2UlJSampqenp6jo6Onp6epqamqqqqrq6usrKyurq6vr6+ysrKzs7PAwMDCwsLDw8PExMTKysrPz8/R0dHS0tLU1NTW1tbY2Nja2trb29vd3d3k5OTl5eXm5ubp6enq6urr6+vs7Ozy8vL09PT29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7///90PKEVAAABmUlEQVQ4jcXVZ1PCMBgH8IeihaooDuhSoe4BiCLuPXAhggsHuHGgOKtgxZFvbgr1lML5kv7v+lwulxe/e5ImIObH1VdgssgBlB9Pl7/AbHGjcsXjuHg4/ZsmmD9RuYaG0jt9zRxhvE6/awNSonJ5vScALEfA6cSUNiAlalerR3G5h7UBKYGbnDgsAGCxENDR6L7RMnK/+M0M8fFod6CFg2y/gLHzmvYLf2TmWjiYJEDH/bp4MoZSkqaulSRCz4Ms5LpKYcDh7M6setLGJbjnq0w2tasEgK43+EamQ1FdTQSv27p4Ka6LZwD0fEEXiYutEmB2faEN6t2jMxFfIBE9nBvrRIlUoD2YfDgOS4kPhPCOv9xLEvp8TcibnwzefSEpcwyk30taORbp239N8irAbxHJ4r9Qz1ixi6axi2awy8pil4UtlYsBoI6jAGq5MlwazADVnMmutzVVAMXazEbCMd5DCV6HlaL2lhoIal8MU0D395YbnBvipYHxZ9+8uECvilfCmRgi73/ewXMhlh1su0RxcVkerVlx+QZjgEa2JSQ5dQAAAABJRU5ErkJggg==" alt="image" /></div>
+<style>
+.hmisctable103903 {
+border: none;
+font-size: 74%;
+}
+.hmisctable103903 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable103903 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable103903">
+ <tr><th>n</th><th>missing</th><th>distinct</th><th>Info</th><th>Mean</th><th>Gmd</th><th>.05</th><th>.10</th><th>.25</th><th>.50</th><th>.75</th><th>.90</th><th>.95</th></tr>
+ <tr><td>1079</td><td>0</td><td>346</td><td>1</td><td>191.7</td><td>152.1</td><td> 23.94</td><td> 58.52</td><td>101.08</td><td>144.97</td><td>219.45</td><td>388.09</td><td>518.83</td></tr>
+ </table>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 0       1.33    2.66    3.99    5.32    ,  <font color="MidnightBlue">highest</font>: 1005.48 1075.97 1105.23 1154.44 1157.1 </span>
+<hr class="thinhr">
+<span style="font-weight:bold">External</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAAAzFBMVEUAAAABAQECAgIDAwMEBAQFBQUHBwcICAgKCgoRERESEhIUFBQYGBgaGhogICAiIiIkJCQpKSktLS0uLi4yMjI0NDQ3Nzc7Ozs9PT0+Pj5AQEBKSkpNTU1VVVVdXV1lZWVsbGx2dnZ4eHh8fHx+fn6BgYGCgoKHh4eKioqRkZGSkpKZmZmcnJympqaoqKisrKytra22tra7u7u9vb3BwcHCwsLJycnMzMzOzs7Y2NjZ2dna2trk5OTn5+fo6Ojq6urr6+vs7Ozy8vL///8mH4i0AAAAwklEQVQ4jc3Vxw7CMBBF0WdaIPTeewm9hhpKIP//T9gmICy2SJO7GNmSF0feDGwRorbHgiOC7+p4K9eFLqniN+k6A7EHtURNupYAjtQSNelacNeQWqIGi9fkLt3yVPK//NyFC/UXKUkXE64NNUVJuLaCheKE2vKdcLWkC+GssaLmfBKuNN7piVpnPdoPzPnh7D7Y3WlcfBcxqIk7YywZNMu+kBYPaKVboZ/KnCLt3Cx/ee2vusFHdSzPvcZfV+O0wscT+XffmE2jAWgAAAAASUVORK5CYII=" alt="image" /></div>
+<style>
+.hmisctable704617 {
+border: none;
+font-size: 74%;
+}
+.hmisctable704617 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable704617 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable704617">
+ <tr><th>n</th><th>missing</th><th>distinct</th><th>Info</th><th>Mean</th><th>Gmd</th><th>.05</th><th>.10</th><th>.25</th><th>.50</th><th>.75</th><th>.90</th><th>.95</th></tr>
+ <tr><td>1079</td><td>0</td><td>212</td><td>1</td><td>85.8</td><td>82.57</td><td> 17.29</td><td> 23.94</td><td> 35.91</td><td> 53.20</td><td> 86.45</td><td>178.49</td><td>273.05</td></tr>
+ </table>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 1.33    2.66    3.99    5.32    6.65    ,  <font color="MidnightBlue">highest</font>: 661.01  790.02  869.82  976.22  2178.54</span>
+<hr class="thinhr">
+<span style="font-weight:bold">Others</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAAAolBMVEUAAAABAQECAgIDAwMEBAQGBgYMDAwODg4SEhIYGBgbGxseHh4lJSUnJycqKiorKysvLy81NTU8PDw9PT0+Pj4/Pz9RUVFWVlZXV1dbW1tgYGBhYWFoaGhqampzc3N5eXmCgoKbm5usrKyysrK3t7e4uLi5ubm8vLy/v7/CwsLExMTGxsbJycnX19fa2trj4+Pr6+vz8/P5+fn6+vr+/v7///95qMaEAAAAuklEQVQ4jc3VxxKCMBSF4ROKvWDBggVsiA1R4f1fzdyICmyccXP5F9kki2+yOYgoR5tH5QoJ5WiLpFwp1xlockMKKZcPmNyQQsq1AzDjluRTrrF06XtuSi6EsoF0wQ7LFP3XtEGuIfcX5SKXKciFgNuSLePqx9yYTOQy8Kqy5NZ8I5dIXaitLffobU+3+KEu74wuuUUf1zshhF5t10fC8KONdZVPWj0arbAbpPPlTX4N3KFz+XMaV7Y8nnYhePhHp8BtAAAAAElFTkSuQmCC" alt="image" /></div>
+<style>
+.hmisctable835562 {
+border: none;
+font-size: 74%;
+}
+.hmisctable835562 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable835562 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable835562">
+ <tr><th>n</th><th>missing</th><th>distinct</th><th>Info</th><th>Mean</th><th>Gmd</th><th>.05</th><th>.10</th><th>.25</th><th>.50</th><th>.75</th><th>.90</th><th>.95</th></tr>
+ <tr><td>1079</td><td>0</td><td>468</td><td>1</td><td>286.8</td><td>245.1</td><td> 57.06</td><td> 87.51</td><td>139.65</td><td>210.14</td><td>316.54</td><td>489.44</td><td>772.86</td></tr>
+ </table>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 1.33    3.99    5.32    6.65    7.98    ,  <font color="MidnightBlue">highest</font>: 2088.1  2475.13 3039.05 5040.7  8440.18</span>
+<hr class="thinhr">
+<span style="font-weight:bold">Total_Views</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAABRFBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcJCQkMDAwNDQ0ODg4PDw8QEBASEhIXFxcaGhocHBwdHR0eHh4gICAhISEjIyMmJiYnJycoKCgpKSkuLi4vLy8wMDAzMzM7Ozs+Pj5BQUFCQkJDQ0NERERISEhKSkpLS0tOTk5RUVFSUlJWVlZgYGBkZGRlZWVra2tsbGxtbW1wcHB0dHR2dnZ3d3d7e3uAgICBgYGEhISHh4eIiIiJiYmLi4uSkpKTk5OZmZmbm5ucnJyjo6OkpKSoqKirq6usrKy2tra6urq+vr7AwMDDw8PExMTIyMjKysrOzs7Pz8/T09PU1NTV1dXX19fY2Nja2trf39/h4eHi4uLj4+Pk5OTl5eXm5ubo6Ojp6enq6urr6+vt7e3v7+/29vb4+Pj5+fn8/Pz9/f3+/v7///+Rc203AAABMklEQVQ4jc3VV0/DMBQF4OMECBQIuy007FXKpgXKKDtl7xFGgOIWAvj/v+M4KLXgEST3WLq6tmTp05Usg5ZTwDydNe9oJQSsnA9k2Zw+zSohsquIrDesjX0qw0iRXOct6O+EhoGVR1ZSJwoiuTaBbo27gJFU9bM6kojvKi2+fruiRLhicTiqXY7jbGGX18tmLiJ88dqOfUdt/Hnt4YRXCuHy54UoDjPWktJ5CdfRD1crGqGnVD7MwBU/W73OSC4imgPlrsikYUJyBc3U8hNjb+pcE9DqdPx2ERixvkjP6FByh7H82oVruzcvV0V32z4uBLcf0h5jnvt+//8u/hdVCQMQvsfQFZ711ie4EjUwiGXxfW2ObnTZHU0YpHTBzBn5tluaaDil4zOUppN/+xrXLV6+ACx4vyqvdOLxAAAAAElFTkSuQmCC" alt="image" /></div>
+<style>
+.hmisctable131097 {
+border: none;
+font-size: 74%;
+}
+.hmisctable131097 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable131097 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable131097">
+ <tr><th>n</th><th>missing</th><th>distinct</th><th>Info</th><th>Mean</th><th>Gmd</th><th>.05</th><th>.10</th><th>.25</th><th>.50</th><th>.75</th><th>.90</th><th>.95</th></tr>
+ <tr><td>1079</td><td>0</td><td>903</td><td>1</td><td>2317</td><td>1533</td><td> 332.4</td><td> 985.3</td><td>1371.2</td><td>1991.0</td><td>2774.4</td><td>3763.6</td><td>5468.0</td></tr>
+ </table>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 58.52   65.17   71.82   86.45   115.71  ,  <font color="MidnightBlue">highest</font>: 10382   10419.2 10948.6 11563   20822.5</span>
+<hr class="thinhr">
+<pre class="r"><code>wViewsDate |&gt; 
     ggplot() + 
     geom_line(aes(Date, Total_Views)) +
     labs(
@@ -590,31 +785,298 @@ This category would have specific lectures/tips to prepare for different section
 Let me know if you need any other suggestions for potential categories!</code></pre>
 <pre class="r"><code>Videos &lt;- read_xlsx(path, sheet = &quot;Sheet1&quot;)
 Videos$`Video publish time` &lt;- as.Date(Videos$`Video publish time`)</code></pre>
-<pre class="r"><code>summary(Videos)</code></pre>
-<pre><code>##    Serial No.       Content          Video title        Video publish time  
-##  Min.   :  1.00   Length:376         Length:376         Min.   :2020-11-18  
-##  1st Qu.: 94.75   Class :character   Class :character   1st Qu.:2021-05-27  
-##  Median :189.50   Mode  :character   Mode  :character   Median :2022-01-03  
-##  Mean   :189.20                                         Mean   :2022-02-11  
-##  3rd Qu.:283.25                                         3rd Qu.:2022-08-15  
-##  Max.   :377.00                                         Max.   :2024-10-06  
-##                                                         NA&#39;s   :12          
-##      Views        Watch time (hours)  Subscribers      Estimated revenue (INR)
-##  Min.   :     0   Min.   :   0.00    Min.   : -14.63   Min.   :   0.000       
-##  1st Qu.:  1099   1st Qu.:  19.80    1st Qu.:   1.33   1st Qu.:   0.471       
-##  Median :  2820   Median :  52.82    Median :   9.31   Median :  40.347       
-##  Mean   :  6642   Mean   : 208.93    Mean   :  35.99   Mean   : 200.357       
-##  3rd Qu.:  5753   3rd Qu.: 173.36    3rd Qu.:  25.60   3rd Qu.: 170.848       
-##  Max.   :143212   Max.   :4928.64    Max.   :1038.73   Max.   :8051.718       
-##                                                                               
-##   Impressions      Impressions click-through rate (%)
-##  Min.   :      0   Min.   : 0.000                    
-##  1st Qu.:  20536   1st Qu.: 3.510                    
-##  Median :  35645   Median : 5.020                    
-##  Mean   :  70655   Mean   : 5.266                    
-##  3rd Qu.:  60429   3rd Qu.: 6.605                    
-##  Max.   :1176191   Max.   :30.710                    
-##                    NA&#39;s   :9</code></pre>
+<pre class="r"><code>Videos |&gt; describe() |&gt; html()</code></pre>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style>
+.earrows {color:silver;font-size:11px;}
+fcap {
+font-family: Verdana;
+font-size: 12px;
+color: MidnightBlue
+}
+smg {
+font-family: Verdana;
+font-size: 10px;
+color: 󅒐
+}
+hr.thinhr { margin-top: 0.15em; margin-bottom: 0.15em; }
+span.xscript {
+position: relative;
+}
+span.xscript sub {
+position: absolute;
+left: 0.1em;
+bottom: -1ex;
+}
+</style>
+
+<title>Videos Descriptives</title>
+<font color="MidnightBlue"><div align="center"><span style="font-weight:bold">Videos <br><br> 10  Variables   376  Observations</span></div></font>
+<hr class="thinhr">
+<span style="font-weight:bold">Serial No.</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAABSlBMVEUAAAACAgIDAwMEBAQFBQUGBgYHBwcKCgoLCwsMDAwNDQ0ODg4PDw8QEBATExMUFBQVFRUWFhYXFxcYGBgZGRkbGxsdHR0fHx8gICAhISEiIiIkJCQlJSUmJiYnJycoKCgpKSkqKiorKyssLCwtLS0vLy8xMTEyMjI0NDQ1NTU2NjY4ODg5OTk7Ozs9PT0+Pj5AQEBBQUFDQ0NERERFRUVHR0dISEhJSUlLS0tMTExNTU1OTk5PT09QUFBRUVFSUlJUVFRWVlZXV1dZWVlbW1tdXV1eXl5fX19gYGBhYWFiYmJjY2NkZGRlZWVmZmZnZ2doaGhpaWlqampra2tsbGxtbW1ubm5vb29wcHBycnJzc3N0dHR1dXV2dnZ3d3d6enp8fHx9fX1+fn5/f3+BgYGCgoKYmJjJycna2trc3Nzr6+vt7e3v7+////+rfMcWAAABpklEQVQ4je2V6VcBURiHfxMSElOiaF+0WCuiTYqGaDRGYxmypMWS//9rr6E++1LHqe799t7n3N9z7j3vedGh1UYRZVRQQg4p0+may+e4nOYhUaECGXncT13bDva2QpabTovYCu0ickySDW/s++1RfYZYechm9FG7f38jzCaZ3Bcrqm4soa29A9v11D0xshImgZ++dPhca6emFEQlrExsu6+EXq/X7aKGJzRRp7rIRje9hysxo4RHKjTRQBUFHWcPup3n83y3M2RrKDPCXGTbE1iKG/LE1JULqsgb4ksBz3ZkTmDKRDWJrkFW8fPnTnfQzukKxDQU9hGSMbZy6N2MsiIl14fsOyn1+l7s8+heppef89KURvdSyX/W6+11PL3kyb5Xq9VS30KgTpSoJ9KIzxwv77oXTwwceCo80EEGCe2F1etcP5q9mkgT+0BbQJqJmQOrO56FM92AlRSW050teHZWA+YYc4fsJztxNXu07vRaL7QJYgZhPDjDyaJ7d/l4Jk7JWSVMQEpNTmP4XiXNeP7jv9dv8qJZpMmOPh9V4rfPx6yGnD4A1QNvDl9gaGEAAAAASUVORK5CYII=" alt="image" /></div>
+<style>
+.hmisctable581917 {
+border: none;
+font-size: 74%;
+}
+.hmisctable581917 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable581917 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable581917">
+ <tr><th>n</th><th>missing</th><th>distinct</th><th>Info</th><th>Mean</th><th>Gmd</th><th>.05</th><th>.10</th><th>.25</th><th>.50</th><th>.75</th><th>.90</th><th>.95</th></tr>
+ <tr><td>376</td><td>0</td><td>376</td><td>1</td><td>189.2</td><td>126.1</td><td> 19.75</td><td> 38.50</td><td> 94.75</td><td>189.50</td><td>283.25</td><td>339.50</td><td>358.25</td></tr>
+ </table>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> :   1   2   3   4   5 ,  <font color="MidnightBlue">highest</font>: 373 374 375 376 377</span>
+<hr class="thinhr">
+<span style="font-weight:bold">Content</span>
+<style>
+.hmisctable977539 {
+border: none;
+font-size: 85%;
+}
+.hmisctable977539 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable977539 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable977539">
+ <tr><th>n</th><th>missing</th><th>distinct</th></tr>
+ <tr><td>376</td><td>0</td><td>376</td></tr>
+ </table>
+
+<style>
+.hmisctable706288 {
+border: none;
+font-size: 85%;
+}
+.hmisctable706288 td {
+text-align: right;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable706288 th {
+color: Black;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: bold;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable706288">
+ <tr><td><font color="MidnightBlue">lowest</font> :</td><td>__pU5becX9k</td><td>_-ib6vAdN6M</td><td>_BsOyeljNTo</td><td>_hqjwyfeydM</td><td>_ktQvst5qFs</td></tr>
+ <tr><td><font color="MidnightBlue">highest</font>:</td><td>Zp5QsvUb42A</td><td>zsIPIghBsuU</td><td>zuXvabuc8hQ</td><td>ZwLINUXQStw</td><td>ZZa4ItLVzN4</td></tr>
+ </table>
+
+<hr class="thinhr">
+<span style="font-weight:bold">Video title</span>
+<style>
+.hmisctable507818 {
+border: none;
+font-size: 85%;
+}
+.hmisctable507818 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable507818 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable507818">
+ <tr><th>n</th><th>missing</th><th>distinct</th></tr>
+ <tr><td>376</td><td>0</td><td>366</td></tr>
+ </table>
+
+<style>
+.hmisctable684184 {
+border: none;
+font-size: 85%;
+}
+.hmisctable684184 td {
+text-align: right;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable684184 th {
+color: Black;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: bold;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable684184">
+ <tr><td><font color="MidnightBlue">lowest</font> :</td><td>&quot;How I cleared IPMAT IIM Rohtak&quot; | Ayush, UniPrime&#39;22                                        </td><td>&quot;How I cracked IPMAT IIMR&quot; | Abhijeet, UniPrime&#39;22                                           </td><td>&quot;How to prepare for IPM Interviews?&quot; answered by IIM Indore professor | IIM Faculty Interview</td><td>&quot;Why I Chose IPM&quot; | IPM IIM Rohtak Topper                                                    </td><td>#1 Launching UniPrep | PI Prep Series by IPMAT AIR 14                                        </td></tr>
+ <tr><td><font color="MidnightBlue">highest</font>:</td><td>Who We Are &amp; What we Represent?                                                              </td><td>Why IPM IIM Indore is the best? | IIM Faculty Interview: Prof. Aditya Maheshwari             </td><td>Why IPM is the BEST Option after 12th || IPM Student Explains                                </td><td>Why NOT to choose IPM? || IIM Indore Faculty Explains                                        </td><td>You can&#39;t miss these IPMAT 2024 tips and tricks                                              </td></tr>
+ </table>
+
+<hr class="thinhr">
+<span style="font-weight:bold">Video publish time</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAACH1BMVEUAAAABAQEDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0ODg4PDw8QEBARERESEhITExMUFBQVFRUWFhYYGBgZGRkaGhobGxscHBweHh4fHx8gICAhISEiIiIjIyMkJCQlJSUnJycpKSkqKiorKyssLCwtLS0uLi4vLy8wMDAxMTEyMjIzMzM0NDQ1NTU2NjY3Nzc4ODg5OTk6Ojo7Ozs8PDw9PT0+Pj4/Pz9AQEBCQkJDQ0NERERFRUVGRkZHR0dISEhJSUlKSkpLS0tMTExNTU1OTk5PT09QUFBRUVFTU1NUVFRVVVVWVlZXV1dYWFhZWVlaWlpbW1tcXFxdXV1eXl5hYWFiYmJlZWVmZmZnZ2dqampra2ttbW1ubm5xcXF3d3d5eXl7e3t8fHx9fX1+fn5/f3+BgYGCgoKDg4OEhISHh4eIiIiKioqLi4uNjY2QkJCTk5OWlpaYmJibm5ucnJyfn5+ioqKkpKSlpaWmpqanp6eoqKipqamqqqqtra2urq6wsLCzs7O3t7e5ubm7u7vBwcHCwsLFxcXGxsbHx8fIyMjJycnKysrLy8vNzc3Ozs7Pz8/R0dHS0tLT09PU1NTV1dXW1tbX19fY2NjZ2dna2trb29vd3d3e3t7f39/h4eHm5ubq6urr6+vt7e3u7u7v7+/x8fHy8vL29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7////iSmgWAAADGElEQVQ4jb3VB1PTcBgG8CetRUBGW2zFUmYXbaF0JNiEUdAqWiuCoxbcoiiKCwdOHLhlCG5L3NviqPmAZhRoK70r553vZTyXvP/LL+9dLviQYV05lGmnVLbWhfWnFLiEGnjOpa2ukvT35itH28L6UyrRFSMOp2/8P67zb+IhyYW+9CsycU0+nEnRIcfqodiCWTHiSDrXp7GkzvcTd75l7Gpsuv1bSjdhdGH47YJds5NJdh14zR3MS2yc2rOMGMzYxdRgVEo3YHTC0v4PLpZlx1+wY8IWAZnL7lCwL8ZHI6xQz+7IPIXofTAyxY4Ei/kj+2TivniHfTzJ/l0uIy6J4eEpVFhR1jxPj1BTIw+eiSEyOncUE3aPSUmY19JjUdUJrvBkDIyc68mK9muzz0zz16P79aDV8FUtuvxO3qiTX+e4nVbZje/C+4TruV8//pqXHXfF0EwL8zIE5h1KdPqCorxHSNNnFwvPOZ37c3ZeLar4vPhd4VfLejniUNylWpUDfyW/Pr9VJbi8GvjNWFGMcxy3VY+VXmFdsJrb3pLW5apL7xrONfuh3iVEgx9f+NNRRGddjCzBxUC2rkxy6ddmgc4Bnbf82ifQMy6vVnR9LPLpQVWq74mugFnVuYHbtUb56JXy6Uvl84jSaUdrN8c9UtokF6N6N6L27UtA3dZQAWi8omt4WSGNL1d15kCSS38x0cVAcoGRXEvQ4Ut1bWoDxbvKsGlzdRPvMsBpNdMmdLTj1l1s3AibHVbKHO6ASXK5sL4TFb7qj+PWz/xz7tm+DkLrnXENoIB3HUcOjQbR4t3r5V3oT3FtDiS56IJUV70u7iIr4DY1NPEuI+pMcFgQDsNuE101sDjmXFVuVJAIdSHU29gdxpbwjCvYEtomuNpDgiursy3Yt45gCMG1VfiMwf+LFBRkFAiKACUHpQCZzX+YIPNBKoXNUwSPBm4t3MVw6eAsQV0pHOWorURNFewG2IyoNsFihtkCkxVGKwx2VNWgshblDpTWocQJnQvFbmjd0HhQ5IGKRKEH+SRySWRT4AXyuEDGC3jTHza2sfdTgf9KAAAAAElFTkSuQmCC" alt="image" /></div>
+<pre style="font-size:85%;">
+          n    missing   distinct       Info       Mean        Gmd        .05 
+        364         12        306          1 2022-02-11      351.5 2020-12-24 
+        .10        .25        .50        .75        .90        .95 
+ 2021-01-31 2021-05-27 2022-01-03 2022-08-15 2023-05-16 2023-09-23  </pre>
+
+<style>
+.hmisctable216338 {
+border: none;
+font-size: 85%;
+}
+.hmisctable216338 td {
+text-align: right;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable216338 th {
+color: Black;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: bold;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable216338">
+ <tr><td><font color="MidnightBlue">lowest</font> :</td><td>2020-11-18</td><td>2020-11-21</td><td>2020-11-27</td><td>2020-11-28</td><td>2020-12-01</td></tr>
+ <tr><td><font color="MidnightBlue">highest</font>:</td><td>2023-10-17</td><td>2023-10-25</td><td>2023-10-28</td><td>2023-10-29</td><td>2024-10-06</td></tr>
+ </table>
+
+<hr class="thinhr">
+<span style="font-weight:bold">Views</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAAAw1BMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYJCQkKCgoLCwsNDQ0ODg4PDw8TExMVFRUXFxcaGhofHx8yMjI1NTU5OTlAQEBJSUlNTU1PT09RUVFUVFRWVlZYWFhaWlpcXFxtbW1wcHBycnJ0dHR5eXl/f3+FhYWGhoaKioqWlpadnZ2fn5+lpaWsrKyurq64uLjDw8PHx8fMzMzPz8/R0dHT09Pa2trc3Nzp6enr6+vs7Ozw8PDy8vL29vb4+Pj5+fn9/f3///+K6ERDAAAAx0lEQVQ4jc3Vxw7CMBBF0RcMhEDoPfTeOwbT5/+/CjsiIMKShXMlj7w8ms1ACBFtiMAFImKhGwUtyMcw0M34CaRc5Yduhz+QcmGo2+EP5Lq6uh3+wDmXrmJ6zAMVyN2XgY7uDX0Hcl0IrCt1vtNdt+YT6OWCYU7si27OO5DnAmyUTrTp9wTRdXLU7JK3yHOppclgOMxGsmbZU9bOO4mDmMf5IsYyLfdy5SIza7+0doXw9nXLKg1Rra/MtfrXq2o2y3+cxlFWjif/sMNNNQFZ0gAAAABJRU5ErkJggg==" alt="image" /></div>
+<style>
+.hmisctable791649 {
+border: none;
+font-size: 74%;
+}
+.hmisctable791649 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable791649 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable791649">
+ <tr><th>n</th><th>missing</th><th>distinct</th><th>Info</th><th>Mean</th><th>Gmd</th><th>.05</th><th>.10</th><th>.25</th><th>.50</th><th>.75</th><th>.90</th><th>.95</th></tr>
+ <tr><td>376</td><td>0</td><td>364</td><td>1</td><td>6642</td><td>8929</td><td>  263.0</td><td>  436.9</td><td> 1098.9</td><td> 2819.6</td><td> 5753.2</td><td>14364.7</td><td>26642.9</td></tr>
+ </table>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 0       1.33    2.66    5.32    10.64   ,  <font color="MidnightBlue">highest</font>: 67155.7 69966   76199.7 82118.2 143212 </span>
+<hr class="thinhr">
+<span style="font-weight:bold">Watch time (hours)</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAIsAAAANCAMAAACuLm0IAAAAvVBMVEUAAAABAQECAgIEBAQFBQUICAgREREVFRUWFhYaGhocHBweHh4fHx8sLCwvLy8wMDAxMTE0NDQ3Nzc5OTk8PDxCQkJISEhJSUlKSkpWVlZbW1thYWFkZGRlZWVpaWlvb29wcHBycnJzc3N2dnaFhYWHh4eTk5Oenp6lpaWqqqqzs7O2tra3t7e5ubnFxcXLy8vS0tLT09PX19fa2trb29vf39/h4eHj4+Pn5+fr6+vt7e3u7u76+vr8/Pz///+hjJQAAAAAqElEQVQ4jc3VxxKCMBCA4TV2UVTEXlARG/ZgiSXv/1iQzaBnT5v/kEkumW/2siDEBkJhRCDlHg7SiIyzTKkVOrTY1AqdURbOV1A+cxPCuUBIPRJMW7bUDExbBh9qh0pboLp4Uku+Fsjk3JF/kfL1vt7JLGofpWWZxfJON3A6FVaKbnZh1nx4XrIpdvXxXIh1qx+ku2PSVuepdsSX33D/Xz/L3u8+LCYfxZmvmtVCqWgPAAAAAElFTkSuQmCC" alt="image" /></div>
+<pre style="font-size:85%;">
+        n  missing distinct     Info     Mean      Gmd      .05      .10      .25 
+      376        0      376        1    208.9    315.2    2.667    5.694   19.803 
+      .50      .75      .90      .95 
+   52.818  173.358  432.131  774.856  </pre>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 0        0.050407 0.133665 0.213199 0.263872 ,  <font color="MidnightBlue">highest</font>: 2534.26  2536.3   4468.94  4918.16  4928.64 </span>
+<hr class="thinhr">
+<span style="font-weight:bold">Subscribers</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAAA1VBMVEUAAAABAQEDAwMEBAQFBQUGBgYHBwcICAgKCgoODg4PDw8RERESEhIVFRUYGBgcHBwdHR0eHh4lJSUwMDBERERISEhNTU1OTk5WVlZYWFhnZ2dpaWlycnJ0dHR2dnZ8fHyHh4eKioqRkZGXl5eYmJicnJyenp6fn5+vr6+0tLS2tra3t7fAwMDBwcHPz8/Q0NDV1dXY2Nja2trj4+Pl5eXm5ubn5+fo6Ojp6enq6urr6+vu7u7v7+/x8fHy8vL09PT29vb4+Pj5+fn6+vr8/Pz+/v7///9gkdiyAAAA60lEQVQ4jc2V2VLCQBBFbxYJBNlkcZddZUc0UceYwADz/59EZhKoQLDKt5nz0NXV0zV1ql8uCMd4IIoBxjGaTDHU9tLvJGukiLy0vGSNFJEXDMkaKbDgwFgoRnwvFCXf5xTh5QNaINvkGOE1B1D7dWS7JBFe49AL9Yr7pM7RuBe9h8DGa+D5n95X8LOi0fOgzSjbbPbbNCrrFe/o4ZNluLClLDk67v+anIfvIcyikoYY8wK812BlJiKmbsu9vHNzHYfW0JoR8pJ7vzKfs2/dS3c/1huEPFYJ6dsfh4DrFL5PIm9qjf4Vja1yWHZg7Or8nf094AAAAABJRU5ErkJggg==" alt="image" /></div>
+<style>
+.hmisctable855203 {
+border: none;
+font-size: 74%;
+}
+.hmisctable855203 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable855203 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable855203">
+ <tr><th>n</th><th>missing</th><th>distinct</th><th>Info</th><th>Mean</th><th>Gmd</th><th>.05</th><th>.10</th><th>.25</th><th>.50</th><th>.75</th><th>.90</th><th>.95</th></tr>
+ <tr><td>376</td><td>0</td><td>83</td><td>0.997</td><td>35.99</td><td>57.23</td><td> -1.33</td><td>  0.00</td><td>  1.33</td><td>  9.31</td><td> 25.60</td><td> 73.81</td><td>123.36</td></tr>
+ </table>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : -14.63  -7.98   -5.32   -3.99   -2.66   ,  <font color="MidnightBlue">highest</font>: 494.76  525.35  613.13  747.46  1038.73</span>
+<hr class="thinhr">
+<span style="font-weight:bold">Estimated revenue (INR)</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJQAAAANCAMAAAB4i7dtAAAAllBMVEUAAAACAgIDAwMFBQULCwsODg4PDw8SEhITExMVFRUbGxsiIiIjIyMrKysxMTE2NjY6OjpAQEBBQUFDQ0NHR0dOTk5PT09ZWVloaGhxcXF4eHiAgICBgYGJiYmMjIyOjo6ioqKjo6Orq6uxsbG2trbPz8/S0tLa2trc3Nzf39/l5eXp6enr6+vt7e3y8vL09PT8/Pz///+p99xvAAAAhklEQVQ4jWPQ0dFkkNEZXIDB0FCPQc5wcIFRRxELRh1FLGBQV1dlkFIfXGBwhtSoo4gEYEex6Q60M1AB2FEMLOyCavoGA+0WOGAA1X1gwMjEyMTKx83MxcnDLy6vIqSlo6PBK6AtoqSjKAqukRTEwJQ6Bw+khpKUxluByUqQU+0pC2vr6AAA1YtcZXHzHzAAAAAASUVORK5CYII=" alt="image" /></div>
+<pre style="font-size:85%;">
+        n  missing distinct     Info     Mean      Gmd      .05      .10      .25 
+      376        0      304    0.993    200.4    322.3   0.0000   0.0000   0.4708 
+      .50      .75      .90      .95 
+  40.3469 170.8481 409.8648 757.1846  </pre>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 0       0.02261 0.02527 0.02926 0.04389 ,  <font color="MidnightBlue">highest</font>: 2701.03 2732.53 3170.4  4941.57 8051.72</span>
+<hr class="thinhr">
+<span style="font-weight:bold">Impressions</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAHkAAAANCAMAAAC6lzGsAAAA/FBMVEUAAAABAQEEBAQHBwcICAgKCgoLCwsMDAwNDQ0ODg4PDw8REREXFxcYGBgbGxscHBwdHR0eHh4fHx8hISEiIiIkJCQmJiYpKSktLS0uLi4wMDA1NTU3Nzc4ODg6Ojo7Ozs8PDw9PT0+Pj5BQUFCQkJGRkZHR0dMTExOTk5QUFBVVVVfX19jY2NkZGRlZWVpaWlycnJ1dXV6enp8fHyDg4OFhYWNjY2RkZGTk5OUlJSYmJiioqKmpqanp6epqamqqqqsrKyxsbG9vb2+vr7AwMDBwcHGxsbU1NTW1tba2trg4ODl5eXm5ubo6Ojr6+vt7e3y8vLz8/P39/f////v0idbAAAAyElEQVQ4jcXUxw6CQBCAYaywiyh27L33BvbesIyF938XgUQvHjyY7P6XSTbZfJnLMKCXyAL5GE0vExxqxNNluZ/BRSpyIUlNjiWwtKIi8zxGJfKyqqY5jmNDI5Vwxs4YY4QqxHd+y9KSlsxVqcmR9vRKR9bLb2HfWGvabXeXzz8+Ph//ygA5ZLgs63Q4ELZbXaLbZukxA//MI8zFubgQ3AeAVeAEk/B1HFXi5tXt+FIA9ebnCseV78u88R6NMQ1dPk/dsjlqLYAXgn7WtBKDYAYAAAAASUVORK5CYII=" alt="image" /></div>
+<style>
+.hmisctable310086 {
+border: none;
+font-size: 74%;
+}
+.hmisctable310086 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable310086 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable310086">
+ <tr><th>n</th><th>missing</th><th>distinct</th><th>Info</th><th>Mean</th><th>Gmd</th><th>.05</th><th>.10</th><th>.25</th><th>.50</th><th>.75</th><th>.90</th><th>.95</th></tr>
+ <tr><td>376</td><td>0</td><td>365</td><td>1</td><td>70655</td><td>86847</td><td>  1827</td><td>  6986</td><td> 20536</td><td> 35645</td><td> 60429</td><td>137919</td><td>240865</td></tr>
+ </table>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 0       1.33    2.66    6.65    11.97   ,  <font color="MidnightBlue">highest</font>: 701836  910001  985021  1105950 1176190</span>
+<hr class="thinhr">
+<span style="font-weight:bold">Impressions click-through rate (%)</span><div style="float: right; text-align: right;"><img src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJcAAAANCAMAAACTvAxuAAABZVBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0QEBARERESEhITExMVFRUWFhYYGBgZGRkbGxsdHR0fHx8gICAhISEiIiIlJSUoKCgpKSkqKiosLCwxMTEyMjI0NDQ3Nzc5OTk8PDw9PT0+Pj5AQEBGRkZHR0dJSUlNTU1QUFBRUVFSUlJaWlpbW1tdXV1eXl5fX19iYmJjY2NlZWVmZmZnZ2doaGhtbW1ubm5wcHBxcXFycnJzc3N0dHR2dnZ4eHh6enp7e3t9fX1/f3+AgICDg4OFhYWKioqLi4uMjIyPj4+UlJSZmZmioqKjo6OlpaWpqamtra2xsbGzs7O2tra6urq8vLy9vb2/v7/BwcHDw8PNzc3S0tLT09PW1tbY2Nja2trb29vh4eHl5eXo6Ojr6+vt7e3u7u7w8PDy8vLz8/P29vb39/f5+fn7+/v9/f3+/v7///8JhPxnAAABbUlEQVQ4jc2VaU8CMRCGX67dZRURUFBQwPu+D0QED7xQUbwVEc9VXEVBpL/fLiBCNuoXWXiaTNukmTyZthmIMq6PafBiVo/VqCge3shPKAAIIc8fpMhrmqwYRUJM8PBwD5CseotUA8nLsvO97/OQJYPmnDSCYeDqJ1mEqubFrBU2+z7SZj5x1GOvtwHQgG/anagFrxk7sSEAHkFwgArQdhhqwqslboMfDPUqwDIIvSRuL58elPYSBEHnE/KMcTBhCmrMfXlBh4VRB+DW3QmKUl4vDmYYqU1niZe1jl6oEymy6CWnroxS9Srxmjax1EuCK3pp6fOnWBBf7mlOhvGmvFdasjCgHDUdkP7mMOwIziN2kZInuUpW2OtHpKLZpYUeB7IcGU24cl5Rjv/FS0KVn9rHh/S8+uieZR9zGQb979jOJ9vo/g+lSKvkRXsRE6Ah8odVEUuXk8bNMyCW62TOkQTW801t0vofrTHA0PAJnurQ9NBStxgAAAAASUVORK5CYII=" alt="image" /></div>
+<style>
+.hmisctable619204 {
+border: none;
+font-size: 85%;
+}
+.hmisctable619204 td {
+text-align: center;
+padding: 0 1ex 0 1ex;
+}
+.hmisctable619204 th {
+color: MidnightBlue;
+text-align: center;
+padding: 0 1ex 0 1ex;
+font-weight: normal;
+}
+</style>
+ <table data-quarto-disable-processing="true" class="hmisctable619204">
+ <tr><th>n</th><th>missing</th><th>distinct</th><th>Info</th><th>Mean</th><th>Gmd</th><th>.05</th><th>.10</th><th>.25</th><th>.50</th><th>.75</th><th>.90</th><th>.95</th></tr>
+ <tr><td>367</td><td>9</td><td>291</td><td>1</td><td>5.266</td><td>2.765</td><td>1.966</td><td>2.380</td><td>3.510</td><td>5.020</td><td>6.605</td><td>8.388</td><td>9.360</td></tr>
+ </table>
+
+<span style="font-size: 85%;"><font color="MidnightBlue">lowest</font> : 0     1.27  1.49  1.64  1.7   ,  <font color="MidnightBlue">highest</font>: 11.76 13.3  13.97 15.7  30.71</span>
+<hr class="thinhr">
 <div id="word-cloud-of-views" class="section level2">
 <h2>Word Cloud of Views</h2>
 <p>weighted by the view count.</p>
