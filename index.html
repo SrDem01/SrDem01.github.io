@@ -355,11 +355,19 @@ display: none;
 </div>
 
 
-<pre class="r"><code>path &lt;- &quot;UnivoyageData.xlsx&quot;
-ViewsDate &lt;- read_xlsx(path,&quot;Sheet2&quot;)
+<pre class="r"><code>ViewsDate &lt;- read_xlsx(path,&quot;Sheet2&quot;)
 
 #pure assumption. This makes the most amount of sense. 
-ViewsDate$Date &lt;- as.Date(ViewsDate$Date, &quot;1900-01-01&quot;)</code></pre>
+ViewsDate$Date &lt;- as.Date(ViewsDate$Date, &quot;1900-01-01&quot;)
+
+summary(ViewsDate)</code></pre>
+<pre><code>##       Date            Traffic source         Views        
+##  Min.   :2020-10-18   Length:18904       Min.   :   0.00  
+##  1st Qu.:2021-07-22   Class :character   1st Qu.:   0.00  
+##  Median :2022-04-26   Mode  :character   Median :  18.62  
+##  Mean   :2022-04-26                      Mean   : 132.24  
+##  3rd Qu.:2023-01-29                      3rd Qu.:  95.76  
+##  Max.   :2023-11-03                      Max.   :8320.48</code></pre>
 <div id="views" class="section level1">
 <h1>Views</h1>
 <pre class="r"><code>exam_dates &lt;- list(&quot;Indore&quot; = as.numeric(as.Date(
@@ -580,7 +588,37 @@ This category would cover latest announcements, details regarding new IPM progra
 This category would have specific lectures/tips to prepare for different sections like quant, logical reasoning, verbal ability for IPMAT. Example titles: &quot;How to prepare for Quantitative Ability - IPMAT 2022/23&quot;, &quot;ParaJumbles | IPMAT,DUJAT, XAT,SET,CUET,NPAT&quot;
 
 Let me know if you need any other suggestions for potential categories!</code></pre>
-<pre class="r"><code>Videos &lt;- read_xlsx(path, sheet = &quot;Sheet1&quot;)</code></pre>
+<pre class="r"><code>Videos &lt;- read_xlsx(path, sheet = &quot;Sheet1&quot;)
+Videos$`Video publish time` &lt;- as.Date(Videos$`Video publish time`)</code></pre>
+<pre class="r"><code>summary(Videos)</code></pre>
+<pre><code>##    Serial No.       Content          Video title        Video publish time  
+##  Min.   :  1.00   Length:376         Length:376         Min.   :2020-11-18  
+##  1st Qu.: 94.75   Class :character   Class :character   1st Qu.:2021-05-27  
+##  Median :189.50   Mode  :character   Mode  :character   Median :2022-01-03  
+##  Mean   :189.20                                         Mean   :2022-02-11  
+##  3rd Qu.:283.25                                         3rd Qu.:2022-08-15  
+##  Max.   :377.00                                         Max.   :2024-10-06  
+##                                                         NA&#39;s   :12          
+##      Views        Watch time (hours)  Subscribers      Estimated revenue (INR)
+##  Min.   :     0   Min.   :   0.00    Min.   : -14.63   Min.   :   0.000       
+##  1st Qu.:  1099   1st Qu.:  19.80    1st Qu.:   1.33   1st Qu.:   0.471       
+##  Median :  2820   Median :  52.82    Median :   9.31   Median :  40.347       
+##  Mean   :  6642   Mean   : 208.93    Mean   :  35.99   Mean   : 200.357       
+##  3rd Qu.:  5753   3rd Qu.: 173.36    3rd Qu.:  25.60   3rd Qu.: 170.848       
+##  Max.   :143212   Max.   :4928.64    Max.   :1038.73   Max.   :8051.718       
+##                                                                               
+##   Impressions      Impressions click-through rate (%)
+##  Min.   :      0   Min.   : 0.000                    
+##  1st Qu.:  20536   1st Qu.: 3.510                    
+##  Median :  35645   Median : 5.020                    
+##  Mean   :  70655   Mean   : 5.266                    
+##  3rd Qu.:  60429   3rd Qu.: 6.605                    
+##  Max.   :1176191   Max.   :30.710                    
+##                    NA&#39;s   :9</code></pre>
+<div id="word-cloud-of-views" class="section level2">
+<h2>Word Cloud of Views</h2>
+<p>weighted by the view count.</p>
+</div>
 </div>
 
 
