@@ -1,59 +1,2326 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
 
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="/">
+<meta name="author" content="Ag.">
+<meta name="dcterms.date" content="2025-06-09">
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+<title>Chess Data Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="derivative">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+<script src="Simplified_Document_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Simplified_Document_files/libs/quarto-html/quarto.js"></script>
+<script src="Simplified_Document_files/libs/quarto-html/popper.min.js"></script>
+<script src="Simplified_Document_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Simplified_Document_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Simplified_Document_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Simplified_Document_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Simplified_Document_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Simplified_Document_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Simplified_Document_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
-  <title>derivative</title>
-  <link rel="manifest" href="manifest.json">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = '4091279941';
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
-<body>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chess Data Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ag. </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 9, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The main goal behind this is to check whether White has an advantage in Chess. We will use some of the concepts learnt in IPS to test and estimate this effect.</p>
+</section>
+<section id="data-set" class="level1">
+<h1>Data set</h1>
+<p>The data is taken from <a href="https://www.kaggle.com/datasets/arevel/chess-games/data">here</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>, <span class="at">dev =</span> <span class="st">"ragg_png"</span>, <span class="at">dpi =</span> <span class="dv">400</span>,<span class="at">warning =</span> <span class="cn">FALSE</span>, <span class="at">message =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"./club_games_data.csv"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 66,879
+Columns: 14
+$ white_username &lt;chr&gt; "-Amos-", "-Amos-", "-Amos-", "enhmandah", "-Amos-", "-…
+$ black_username &lt;chr&gt; "miniman2804", "koltcho69", "enhmandah", "-Amos-", "Sha…
+$ white_id       &lt;chr&gt; "https://api.chess.com/pub/player/-amos-", "https://api…
+$ black_id       &lt;chr&gt; "https://api.chess.com/pub/player/miniman2804", "https:…
+$ white_rating   &lt;int&gt; 1708, 1726, 1727, 819, 1729, 1744, 1554, 1744, 1856, 10…
+$ black_rating   &lt;int&gt; 1608, 1577, 842, 1727, 1116, 1565, 1744, 1554, 1726, 17…
+$ white_result   &lt;chr&gt; "win", "win", "win", "checkmated", "win", "win", "timeo…
+$ black_result   &lt;chr&gt; "checkmated", "resigned", "resigned", "win", "resigned"…
+$ time_class     &lt;chr&gt; "daily", "daily", "daily", "daily", "daily", "daily", "…
+$ time_control   &lt;chr&gt; "1/259200", "1/172800", "1/172800", "1/172800", "1/1728…
+$ rules          &lt;chr&gt; "chess", "chess", "chess", "chess", "chess", "chess", "…
+$ rated          &lt;chr&gt; "True", "True", "True", "True", "True", "True", "True",…
+$ fen            &lt;chr&gt; "r2r4/p2p1p1p/b6R/n1p1kp2/2P2P2/3BP3/PP5P/4K2R b K f3 1…
+$ pgn            &lt;chr&gt; "[Event \"Enjoyable games 2 - Round 1\"]\n[Site \"Chess…</code></pre>
+</div>
+</div>
+<p>For us, the important variables are</p>
+<ol type="1">
+<li>time_class</li>
+<li>white / black result</li>
+<li>white / black ratings</li>
+<li>rules: we only want the normal chess variant</li>
+</ol>
+<p>From the above, we will extract the following information:</p>
+<ol type="1">
+<li>Winner: White / Black / Draw</li>
+<li>White / Black Ratings</li>
+<li>time_class</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(rules <span class="sc">==</span> <span class="st">"chess"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">winner =</span> <span class="fu">if_else</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        black_result <span class="sc">==</span> <span class="st">"win"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"black"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">if_else</span>(white_result <span class="sc">==</span> <span class="st">"win"</span>, <span class="st">"white"</span>, <span class="st">"draw"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(black_rating, white_rating, winner, time_class) <span class="sc">%&gt;%</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">winner =</span> <span class="fu">factor</span>(winner, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"draw"</span>)),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">time_class =</span> <span class="fu">factor</span>(time_class, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"bullet"</span>, <span class="st">"blitz"</span>, <span class="st">"rapid"</span>, <span class="st">"daily"</span>))</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 65,778
+Columns: 4
+$ black_rating &lt;int&gt; 1608, 1577, 842, 1727, 1116, 1565, 1744, 1554, 1726, 1727…
+$ white_rating &lt;int&gt; 1708, 1726, 1727, 819, 1729, 1744, 1554, 1744, 1856, 1099…
+$ winner       &lt;fct&gt; white, white, white, black, white, white, black, white, w…
+$ time_class   &lt;fct&gt; daily, daily, daily, daily, daily, daily, daily, daily, d…</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(winner) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">Percentage =</span> <span class="fu">n</span>() <span class="sc">*</span> <span class="dv">100</span> <span class="sc">/</span> <span class="fu">nrow</span>(dat),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">winner</th>
+<th style="text-align: right;">Percentage</th>
+<th style="text-align: right;">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">white</td>
+<td style="text-align: right;">49.838852</td>
+<td style="text-align: right;">32783</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">46.667579</td>
+<td style="text-align: right;">30697</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">draw</td>
+<td style="text-align: right;">3.493569</td>
+<td style="text-align: right;">2298</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(winner) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">Percentage =</span> <span class="fu">n</span>() <span class="sc">*</span> <span class="dv">100</span> <span class="sc">/</span> <span class="fu">nrow</span>(dat), <span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(winner, Percentage, <span class="at">fill =</span> winner)) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">list</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"white"</span> <span class="ot">=</span> <span class="st">"white"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"black"</span> <span class="ot">=</span> <span class="st">"black"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"draw"</span> <span class="ot">=</span> <span class="st">"grey50"</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Percentage of Wins"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We will discard the draws as it is easier to model binary outcomes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(winner <span class="sc">!=</span> <span class="st">"draw"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 63,480
+Columns: 4
+$ black_rating &lt;int&gt; 1608, 1577, 842, 1727, 1116, 1565, 1744, 1554, 1726, 1727…
+$ white_rating &lt;int&gt; 1708, 1726, 1727, 819, 1729, 1744, 1554, 1744, 1856, 1099…
+$ winner       &lt;fct&gt; white, white, white, black, white, white, black, white, w…
+$ time_class   &lt;fct&gt; daily, daily, daily, daily, daily, daily, daily, daily, d…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  black_rating   white_rating    winner       time_class   
+ Min.   : 100   Min.   : 100   white:32783   bullet:21727  
+ 1st Qu.: 978   1st Qu.: 979   black:30697   blitz :27665  
+ Median :1252   Median :1252   draw :    0   rapid :12256  
+ Mean   :1248   Mean   :1249                 daily : 1832  
+ 3rd Qu.:1523   3rd Qu.:1523                               
+ Max.   :3172   Max.   :3172                               </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">black_rating</th>
+<th style="text-align: right;">white_rating</th>
+<th style="text-align: left;">winner</th>
+<th style="text-align: left;">time_class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1267</td>
+<td style="text-align: right;">1279</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">blitz</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1658</td>
+<td style="text-align: right;">1677</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">rapid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1183</td>
+<td style="text-align: right;">1226</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">rapid</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1061</td>
+<td style="text-align: right;">895</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">rapid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1010</td>
+<td style="text-align: right;">981</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">blitz</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">347</td>
+<td style="text-align: right;">342</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">blitz</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1345</td>
+<td style="text-align: right;">1256</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">blitz</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1954</td>
+<td style="text-align: right;">1944</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">blitz</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">438</td>
+<td style="text-align: right;">523</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">blitz</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">640</td>
+<td style="text-align: right;">686</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">bullet</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(winner) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">Percentage =</span> <span class="fu">n</span>() <span class="sc">*</span> <span class="dv">100</span> <span class="sc">/</span> <span class="fu">nrow</span>(dat),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">winner</th>
+<th style="text-align: right;">Percentage</th>
+<th style="text-align: right;">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">white</td>
+<td style="text-align: right;">51.64304</td>
+<td style="text-align: right;">32783</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">48.35696</td>
+<td style="text-align: right;">30697</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(winner) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">Percentage =</span> <span class="fu">n</span>() <span class="sc">*</span> <span class="dv">100</span> <span class="sc">/</span> <span class="fu">nrow</span>(dat), <span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(winner, Percentage, <span class="at">fill =</span> winner)) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">list</span>(</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"white"</span> <span class="ot">=</span> <span class="st">"white"</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"black"</span> <span class="ot">=</span> <span class="st">"black"</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"draw"</span> <span class="ot">=</span> <span class="st">"grey50"</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Percentage of Wins"</span>) <span class="sc">+</span> <span class="fu">theme</span>(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"Cabin"</span>, <span class="at">colour =</span> <span class="st">"#4C3232"</span>),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> ggtext<span class="sc">::</span><span class="fu">element_textbox_simple</span>(</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">16</span>,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">12</span>, <span class="dv">0</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="st">"OPTIAuvantGothic-DemiBold"</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">24</span>,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>            <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> <span class="st">"#200000"</span>,</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">12</span>, <span class="dv">0</span>, <span class="dv">12</span>, <span class="dv">0</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"#4C3232"</span>)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.02</span>))) <span class="sc">+</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    ggtext<span class="sc">::</span><span class="fu">geom_textbox</span>(</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>            <span class="at">label =</span> <span class="fu">paste0</span>(</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>                <span class="st">"&lt;span style='font-size:32pt'&gt;&lt;br&gt;"</span>,</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(Percentage, <span class="dv">2</span>),</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>                <span class="st">"% &lt;br&gt;&lt;/span&gt;"</span>,</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>                winner, <span class="st">" wins    "</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>            ),</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span>  <span class="fu">case_when</span>(Percentage <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="dv">0</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">1</span>),</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>            <span class="at">halign =</span> <span class="fu">case_when</span>(Percentage <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="dv">0</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">1</span>),</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> <span class="fu">case_when</span>(Percentage <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"#4C3232"</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"grey50"</span>)</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">vjust =</span> <span class="fl">0.35</span>,</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="cn">NA</span>,</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">box.colour =</span> <span class="cn">NA</span>,</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>        <span class="at">family =</span> <span class="st">"Cabin"</span>,</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">7</span>,</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>        <span class="at">fontface =</span> <span class="st">"bold"</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_identity</span>() <span class="sc">+</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+not found in Windows font database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">white_win =</span> <span class="fu">ifelse</span>(winner <span class="sc">==</span> <span class="st">"white"</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(time_class, white_win)) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>) <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> mean_cl_boot,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">geom =</span> <span class="st">"errorbar"</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">"Observed Probabilty of White Wins"</span>) <span class="sc">+</span> </span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Proportions of White Wins Across Time Classes"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="methodology" class="level1">
+<h1>Methodology</h1>
+<p>We will fit 3 models of varying complexity and select the one that results in the best predictions.</p>
+<p>First, we need to change the data format to allow us to estimate the white advantage. Basically, we want to see how much does the probability of success of player changes if he plays white instead of black.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>convert_dataframe <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    random_selection <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">'white'</span>, <span class="st">'black'</span>), <span class="fu">nrow</span>(df), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    p1_white <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(random_selection <span class="sc">==</span> <span class="st">'white'</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    p1_rating <span class="ot">&lt;-</span> p1_white <span class="sc">*</span> df<span class="sc">$</span>white_rating <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> p1_white) <span class="sc">*</span> df<span class="sc">$</span>black_rating</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    p2_rating <span class="ot">&lt;-</span> p1_white <span class="sc">*</span> df<span class="sc">$</span>black_rating <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> p1_white) <span class="sc">*</span> df<span class="sc">$</span>white_rating</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    p1_winner <span class="ot">&lt;-</span> <span class="fu">ifelse</span>((random_selection <span class="sc">==</span> <span class="st">'white'</span> <span class="sc">&amp;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                             df<span class="sc">$</span>winner <span class="sc">==</span> <span class="st">'white'</span>) <span class="sc">|</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>                            (random_selection <span class="sc">==</span> <span class="st">'black'</span> <span class="sc">&amp;</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>                                 df<span class="sc">$</span>winner <span class="sc">==</span> <span class="st">'black'</span>),</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">1</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">0</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    df <span class="sc">%&gt;%</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">transmute</span>(p1_rating, p2_rating, p1_white, time_class, p1_winner)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">convert_dataframe</span>(dat)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">p1_rating</th>
+<th style="text-align: right;">p2_rating</th>
+<th style="text-align: right;">p1_white</th>
+<th style="text-align: left;">time_class</th>
+<th style="text-align: right;">p1_winner</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1708</td>
+<td style="text-align: right;">1608</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">daily</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1726</td>
+<td style="text-align: right;">1577</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">daily</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1727</td>
+<td style="text-align: right;">842</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">daily</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1727</td>
+<td style="text-align: right;">819</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">daily</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1729</td>
+<td style="text-align: right;">1116</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">daily</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1744</td>
+<td style="text-align: right;">1565</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">daily</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 63,480
+Columns: 5
+$ p1_rating  &lt;dbl&gt; 1708, 1726, 1727, 1727, 1729, 1744, 1744, 1554, 1726, 1727,…
+$ p2_rating  &lt;dbl&gt; 1608, 1577, 842, 819, 1116, 1565, 1554, 1744, 1856, 1099, 1…
+$ p1_white   &lt;dbl&gt; 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,…
+$ time_class &lt;fct&gt; daily, daily, daily, daily, daily, daily, daily, daily, dai…
+$ p1_winner  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0,…</code></pre>
+</div>
+</div>
+<p>From this, extract the following information:</p>
+<ol type="1">
+<li><p>p1_white: to get white’s advantage.</p></li>
+<li><p>time_class: Different types of games may have a different effect</p></li>
+<li><p>Average_Ratings: We will use the average ratings of the 2 players as a proxy for high the level of the game is. Average ratings / 100.</p></li>
+<li><p>Log Odds computed from Ratings difference based on the Elo formula</p></li>
+</ol>
+<p>The way this works is that</p>
+<p><span class="math display">\[
+P(A) = \frac{1}{1 + 10^{(R_a - R_b)/400}}
+\]</span></p>
+<p>So, we can get the odds ratio by simply:</p>
+<p><span class="math display">\[Odds_A = \frac{P(A)}{1-P(A)}\]</span></p>
+<p>We will take the log odds of this and use it as a linear predictor of the log odds.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">P_p1 =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span>(p1_rating <span class="sc">-</span> p2_rating)<span class="sc">/</span><span class="dv">400</span>)),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">P_p2 =</span> <span class="dv">1</span> <span class="sc">-</span> P_p1,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">log_odds =</span> <span class="fu">log</span>(P_p1) <span class="sc">-</span> <span class="fu">log</span>(P_p2),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">average_ratings =</span> (p1_rating <span class="sc">+</span> p2_rating) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">p1_white =</span> <span class="fu">factor</span>(p1_white),</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">p1_winner =</span> <span class="fu">factor</span>(p1_winner)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> <span class="fu">select</span>(</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        p1_winner,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        p1_white,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        log_odds,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>        average_ratings,</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>        time_class</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    ) <span class="ot">-&gt;</span> elo_df</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>elo_df <span class="sc">%&gt;%</span> </span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 63,480
+Columns: 5
+$ p1_winner       &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, …
+$ p1_white        &lt;fct&gt; 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, …
+$ log_odds        &lt;dbl&gt; 0.57564627, 0.85771295, 5.09446952, 5.22686816, 3.5287…
+$ average_ratings &lt;dbl&gt; 1658.0, 1651.5, 1284.5, 1273.0, 1422.5, 1654.5, 1649.0…
+$ time_class      &lt;fct&gt; daily, daily, daily, daily, daily, daily, daily, daily…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>elo_df <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> p1_winner p1_white     log_odds          average_ratings   time_class   
+ 0:31756   0:31813   Min.   :-10.724290   Min.   : 111.0   bullet:21727  
+ 1:31724   1:31667   1st Qu.: -0.224502   1st Qu.: 983.4   blitz :27665  
+                     Median :  0.000000   Median :1252.0   rapid :12256  
+                     Mean   :  0.002473   Mean   :1248.6   daily : 1832  
+                     3rd Qu.:  0.224502   3rd Qu.:1521.5                 
+                     Max.   : 11.789236   Max.   :2682.5                 </code></pre>
+</div>
+</div>
+<p>We will fit the model of increasing complexity on the above predictors. Interaction terms between p1_white and the other variables to see how the white advantage across skill, game, and player differences.</p>
+<p>use K-Fold Cross Validation to determine the best model and analyse and visualize those results.</p>
+</section>
+<section id="models" class="level1">
+<h1>Models</h1>
+<p>Hi, we are pretty much only using logistic regression models.</p>
+<p>That means we are modeling the log odds of player 1 winning:</p>
+<p><span class="math display">\[
+log(Odds_{p_1}) = log \ \frac{P(P_1 \ wins)}{1 - P(P_1 \ wins)}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>train_control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="basic-model" class="level2">
+<h2 class="anchored" data-anchor-id="basic-model">Basic Model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(elo_df)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>fit<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(p1_winner <span class="sc">~</span> p1_white <span class="sc">+</span> log_odds <span class="sc">+</span> average_ratings,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> elo_df,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">binomial</span>())</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>fit<span class="fl">.1</span> <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = p1_winner ~ p1_white + log_odds + average_ratings, 
+    family = binomial(), data = elo_df)
+
+Coefficients:
+                  Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)     -1.044e-01  3.012e-02  -3.467 0.000526 ***
+p1_white1        1.460e-01  1.719e-02   8.493  &lt; 2e-16 ***
+log_odds         1.713e+00  2.257e-02  75.909  &lt; 2e-16 ***
+average_ratings  2.225e-05  2.204e-05   1.010 0.312569    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 88002  on 63479  degrees of freedom
+Residual deviance: 77190  on 63476  degrees of freedom
+AIC: 77198
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+</div>
+</section>
+<section id="interaction-effects" class="level2">
+<h2 class="anchored" data-anchor-id="interaction-effects">Interaction Effects</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fit<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(p1_winner <span class="sc">~</span> (p1_white <span class="sc">+</span> log_odds <span class="sc">+</span> average_ratings)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> elo_df,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">binomial</span>())</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>fit<span class="fl">.2</span> <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = p1_winner ~ (p1_white + log_odds + average_ratings)^2, 
+    family = binomial(), data = elo_df)
+
+Coefficients:
+                            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)               -1.108e-01  4.159e-02  -2.665  0.00771 ** 
+p1_white1                  1.527e-01  5.861e-02   2.606  0.00915 ** 
+log_odds                   2.858e+00  7.564e-02  37.783  &lt; 2e-16 ***
+average_ratings            2.675e-05  3.138e-05   0.852  0.39399    
+p1_white1:log_odds        -2.721e-02  4.452e-02  -0.611  0.54110    
+p1_white1:average_ratings -5.078e-06  4.427e-05  -0.115  0.90868    
+log_odds:average_ratings  -8.742e-04  5.094e-05 -17.161  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 88002  on 63479  degrees of freedom
+Residual deviance: 76907  on 63473  degrees of freedom
+AIC: 76921
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+</div>
+</section>
+<section id="varying-slopes-by-time-class" class="level2">
+<h2 class="anchored" data-anchor-id="varying-slopes-by-time-class">Varying Slopes by Time Class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fit<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    p1_winner <span class="sc">~</span> (p1_white <span class="sc">+</span> log_odds <span class="sc">+</span> average_ratings) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">+</span> p1_white <span class="sc">*</span> time_class,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> elo_df,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>()</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>fit<span class="fl">.3</span> <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = p1_winner ~ (p1_white + log_odds + average_ratings)^2 + 
+    p1_white * time_class, family = binomial(), data = elo_df)
+
+Coefficients:
+                            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)               -5.707e-02  4.634e-02  -1.231   0.2181    
+p1_white1                  1.102e-01  6.516e-02   1.691   0.0908 .  
+log_odds                   2.859e+00  7.566e-02  37.784   &lt;2e-16 ***
+average_ratings            1.850e-05  3.152e-05   0.587   0.5574    
+time_classblitz           -6.580e-02  2.775e-02  -2.371   0.0177 *  
+time_classrapid           -7.831e-02  3.468e-02  -2.258   0.0239 *  
+time_classdaily            8.524e-02  9.884e-02   0.862   0.3885    
+p1_white1:log_odds        -2.738e-02  4.452e-02  -0.615   0.5385    
+p1_white1:average_ratings  3.127e-06  4.443e-05   0.070   0.9439    
+log_odds:average_ratings  -8.745e-04  5.095e-05 -17.163   &lt;2e-16 ***
+p1_white1:time_classblitz  6.141e-02  3.926e-02   1.564   0.1178    
+p1_white1:time_classrapid  4.478e-02  4.902e-02   0.913   0.3610    
+p1_white1:time_classdaily -2.500e-01  1.400e-01  -1.786   0.0742 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 88002  on 63479  degrees of freedom
+Residual deviance: 76894  on 63467  degrees of freedom
+AIC: 76920
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fit<span class="fl">.4</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(p1_winner <span class="sc">~</span> (p1_white <span class="sc">+</span> log_odds <span class="sc">+</span> average_ratings <span class="sc">+</span> time_class)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> elo_df,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">binomial</span>())</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>fit<span class="fl">.4</span> <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = p1_winner ~ (p1_white + log_odds + average_ratings + 
+    time_class)^2, family = binomial(), data = elo_df)
+
+Coefficients:
+                                  Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                     -8.514e-02  6.002e-02  -1.418   0.1560    
+p1_white1                        1.137e-01  6.534e-02   1.741   0.0818 .  
+log_odds                         2.586e+00  8.467e-02  30.545  &lt; 2e-16 ***
+average_ratings                  4.010e-05  4.296e-05   0.933   0.3507    
+time_classblitz                  2.199e-04  6.882e-02   0.003   0.9975    
+time_classrapid                 -9.562e-02  9.269e-02  -1.032   0.3022    
+time_classdaily                  4.189e-02  2.835e-01   0.148   0.8825    
+p1_white1:log_odds              -1.878e-02  4.212e-02  -0.446   0.6558    
+p1_white1:average_ratings       -4.633e-08  4.474e-05  -0.001   0.9992    
+p1_white1:time_classblitz        6.580e-02  3.941e-02   1.670   0.0950 .  
+p1_white1:time_classrapid        4.865e-02  4.924e-02   0.988   0.3231    
+p1_white1:time_classdaily       -1.821e-01  1.162e-01  -1.568   0.1169    
+log_odds:average_ratings        -7.679e-04  5.254e-05 -14.615  &lt; 2e-16 ***
+log_odds:time_classblitz         5.607e-01  5.453e-02  10.283  &lt; 2e-16 ***
+log_odds:time_classrapid         3.763e-01  6.889e-02   5.462  4.7e-08 ***
+log_odds:time_classdaily        -7.369e-01  5.549e-02 -13.279  &lt; 2e-16 ***
+average_ratings:time_classblitz -5.532e-05  4.925e-05  -1.123   0.2613    
+average_ratings:time_classrapid  1.351e-05  6.771e-05   0.200   0.8419    
+average_ratings:time_classdaily  1.863e-05  2.050e-04   0.091   0.9276    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 88002  on 63479  degrees of freedom
+Residual deviance: 76495  on 63461  degrees of freedom
+AIC: 76533
+
+Number of Fisher Scoring iterations: 6</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="stupid-models" class="level1">
+<h1>3 Stupid Models</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>mods <span class="ot">&lt;-</span> <span class="fu">list</span>(fit<span class="fl">.1</span>, fit<span class="fl">.2</span>, fit<span class="fl">.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Results?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_models</span>(mods) <span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_discrete</span>(<span class="at">name =</span> <span class="st">"Model"</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))<span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Estimates and CI across 3 Models"</span>) <span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    viridis<span class="sc">::</span><span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> T) <span class="sc">+</span> </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>,  <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for colour is already present.
+Adding another scale for colour, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(fit<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Profiled confidence intervals may take longer time to compute.
+  Use `ci_method="wald"` for faster computation of CIs.</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">&nbsp;</td>
+<td colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">p1_winner</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Predictors</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Odds Ratios</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">p</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.90</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.83&nbsp;–&nbsp;0.97</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>0.008</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">p1 white [1]</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.17</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.04&nbsp;–&nbsp;1.31</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>0.009</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">log odds</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">17.42</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">15.02&nbsp;–&nbsp;20.21</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">average ratings</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.00&nbsp;–&nbsp;1.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.394</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">p1 white [1] × log odds</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.97</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.89&nbsp;–&nbsp;1.06</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.541</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">p1 white [1] × average<br>
+ratings</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.00&nbsp;–&nbsp;1.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.909</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">log odds × average<br>
+ratings</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.00&nbsp;–&nbsp;1.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">63480</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> Tjur</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.168</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Cross Validation Scores</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>train_control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">10</span>, <span class="at">savePredictions =</span> <span class="st">"final"</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>res_ <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (mod <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mods)) {</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    formula <span class="ot">=</span> mods[[mod]]<span class="sc">$</span>formula</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>        formula,</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> elo_df,</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">"glm"</span>,</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">family =</span> <span class="st">"binomial"</span>,</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">trControl =</span> train_control</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    res_[[mod]] <span class="ot">&lt;-</span> a<span class="sc">$</span>results</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, res_)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>res <span class="sc">%&gt;%</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">ymin =</span> (Accuracy <span class="sc">-</span> <span class="dv">1</span> <span class="sc">*</span> AccuracySD)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Lower bound (mean - 2 * SD)</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">ymax =</span> (Accuracy <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> AccuracySD)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy (%)"</span> <span class="ot">=</span> Accuracy <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(model, <span class="st">`</span><span class="at">Accuracy (%)</span><span class="st">`</span>)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> ymin, <span class="at">ymax =</span> ymax)) <span class="sc">+</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Accuracy Scores in Cross Validation"</span>,</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">subtitle =</span> <span class="st">"Mean Accuracy +- 2 SD"</span>) <span class="sc">+</span> </span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.title.x =</span>  <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit<span class="fl">.1</span>, fit<span class="fl">.2</span>, fit<span class="fl">.3</span>, fit<span class="fl">.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table
+
+Model 1: p1_winner ~ p1_white + log_odds + average_ratings
+Model 2: p1_winner ~ (p1_white + log_odds + average_ratings)^3
+Model 3: p1_winner ~ (p1_white + log_odds + average_ratings)^2 + p1_white * 
+    time_class
+Model 4: p1_winner ~ (p1_white + log_odds + average_ratings + time_class)^2
+  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)    
+1     63476      77184                         
+2     63472      76897  4   286.90   &lt;2e-16 ***
+3     63467      76888  5     8.90   0.1131    
+4     63461      76486  6   401.87   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>We choose the second model as it seems to be the best among the 3.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(fit<span class="fl">.4</span>) <span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Profiled confidence intervals may take longer time to compute.
+  Use `ci_method="wald"` for faster computation of CIs.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="final-model-results" class="level1">
+<h1>Final Model Results</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = p1_winner ~ (p1_white + log_odds + average_ratings)^3, 
+    family = binomial(), data = elo_df)
+
+Coefficients:
+                                     Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                        -0.0109238  0.0415819  -0.263  0.79278    
+p1_white1                           0.1516555  0.0586142   2.587  0.00967 ** 
+log_odds                            2.9696004  0.1054772  28.154  &lt; 2e-16 ***
+average_ratings                    -0.0027142  0.0015698  -1.729  0.08380 .  
+p1_white1:log_odds                 -0.2423014  0.1453703  -1.667  0.09556 .  
+p1_white1:average_ratings          -0.0002179  0.0022141  -0.098  0.92161    
+log_odds:average_ratings           -0.0469083  0.0036917 -12.707  &lt; 2e-16 ***
+p1_white1:log_odds:average_ratings  0.0061666  0.0050982   1.210  0.22645    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 88002  on 63479  degrees of freedom
+Residual deviance: 76897  on 63472  degrees of freedom
+AIC: 76913
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+</div>
+<p>3 things are significant: 1. p1_white 2. log_odds 3. log_odds:average_ratings</p>
+<p>Inferences:</p>
+<ol type="1">
+<li>white advantage.</li>
+<li>not really changing with log_odds or game_level :/</li>
+<li>log_odds has different effects at different levels.</li>
+</ol>
+<p>What do I need to do?</p>
+<p>log_odds and predicted probability according to the model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">.rows =</span> c<span class="sc">*</span>n<span class="sc">*</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">Ratings_Difference =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span>(n<span class="dv">-1</span>)), c<span class="sc">*</span><span class="dv">2</span>),</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">Predicted_Probability =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span>(Ratings_Difference)<span class="sc">/</span><span class="dv">400</span>)),</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">log_odds =</span> <span class="fu">log</span>(Predicted_Probability) <span class="sc">-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> Predicted_Probability),</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">average_ratings =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">750</span>, n), <span class="fu">rep</span>(<span class="dv">1500</span>, n), <span class="fu">rep</span>(<span class="dv">2250</span>, n)), <span class="dv">2</span>),</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">p1_white =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, n<span class="sc">*</span>c), <span class="fu">rep</span>(<span class="dv">0</span>, n<span class="sc">*</span>c)))</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(df, <span class="st">`</span><span class="at">Time_Class</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"bullet"</span>),</span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(df, <span class="st">`</span><span class="at">Time_Class</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"blitz"</span>),</span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(df, <span class="st">`</span><span class="at">Time_Class</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"rapid"</span>),</span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(df, <span class="st">`</span><span class="at">Time_Class</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"daily"</span>)</span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">time_class =</span> <span class="fu">factor</span>(Time_Class, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"bullet"</span>, <span class="st">"blitz"</span>, <span class="st">"rapid"</span>, <span class="st">"daily"</span>))) <span class="ot">-&gt;</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(Ratings_Difference, Predicted_Probability)) <span class="sc">+</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Probability of Winning"</span>,</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> latex2exp<span class="sc">::</span><span class="fu">TeX</span>(<span class="st">"Formula: $P(A) = </span><span class="sc">\\</span><span class="st">frac{1}{1 + 10^{(R_a - R_b)/400}}$"</span>)</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">average_ratings =</span> <span class="fu">factor</span>(average_ratings, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">750</span>, <span class="dv">1500</span>, <span class="dv">2250</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggplot</span>(<span class="fu">aes</span>(Ratings_Difference, fit_2_prediction, <span class="at">colour =</span> average_ratings)) <span class="sc">+</span> </span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span> p1_white)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>test_df <span class="ot">&lt;-</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">log_odds =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">5</span>),</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">average_ratings =</span> <span class="fu">c</span>(<span class="dv">1500</span>, <span class="dv">1500</span>, <span class="dv">1500</span>),</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">p1_white =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(fit<span class="fl">.1</span>, <span class="at">newdata =</span> test_df, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           1            2            3 
+3.006482e-06 1.553111e-02 9.880644e-01 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>elo_df <span class="sc">%&gt;%</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">p1_winner =</span> <span class="fu">factor</span>(</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>            p1_winner,</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Player 1"</span>, <span class="st">"Player 2"</span>)</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">white =</span> <span class="fu">factor</span>(</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>            p1_white,</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Player 1"</span>, <span class="st">"Player 2"</span>)</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(p1_winner, white, log_odds, average_ratings, time_class) <span class="sc">%&gt;%</span></span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>    gtsummary<span class="sc">::</span><span class="fu">tbl_summary</span>(<span class="at">by =</span> p1_winner) <span class="sc">%&gt;%</span> <span class="fu">add_n</span>() <span class="sc">|&gt;</span>  <span class="fu">modify_header</span>(<span class="at">label =</span> <span class="st">"**Variable**"</span>) <span class="sc">|&gt;</span> <span class="co"># update the column header</span></span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bold_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="jtatrikrtu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jtatrikrtu table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#jtatrikrtu thead, #jtatrikrtu tbody, #jtatrikrtu tfoot, #jtatrikrtu tr, #jtatrikrtu td, #jtatrikrtu th {
+  border-style: none;
+}
+
+#jtatrikrtu p {
+  margin: 0;
+  padding: 0;
+}
+
+#jtatrikrtu .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#jtatrikrtu .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jtatrikrtu .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jtatrikrtu .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jtatrikrtu .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jtatrikrtu .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jtatrikrtu .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jtatrikrtu .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jtatrikrtu .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#jtatrikrtu .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#jtatrikrtu .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jtatrikrtu .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jtatrikrtu .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jtatrikrtu .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jtatrikrtu .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jtatrikrtu .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jtatrikrtu .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jtatrikrtu .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#jtatrikrtu .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jtatrikrtu .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jtatrikrtu .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jtatrikrtu .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jtatrikrtu .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jtatrikrtu .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jtatrikrtu .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jtatrikrtu .gt_left {
+  text-align: left;
+}
+
+#jtatrikrtu .gt_center {
+  text-align: center;
+}
+
+#jtatrikrtu .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jtatrikrtu .gt_font_normal {
+  font-weight: normal;
+}
+
+#jtatrikrtu .gt_font_bold {
+  font-weight: bold;
+}
+
+#jtatrikrtu .gt_font_italic {
+  font-style: italic;
+}
+
+#jtatrikrtu .gt_super {
+  font-size: 65%;
+}
+
+#jtatrikrtu .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#jtatrikrtu .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jtatrikrtu .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#jtatrikrtu .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#jtatrikrtu .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jtatrikrtu .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jtatrikrtu .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#jtatrikrtu .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#jtatrikrtu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header gt_col_headings">
+<th id="<div data-qmd-base64=&quot;KipWYXJpYWJsZSoq&quot;><div class='gt_from_md'><p><strong>Variable</strong></p>
+</div></div>" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><p><strong>Variable</strong></p></th>
+<th id="<div data-qmd-base64=&quot;KipOKio=&quot;><div class='gt_from_md'><p><strong>N</strong></p>
+</div></div>" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><p><strong>N</strong></p></th>
+<th id="<div data-qmd-base64=&quot;KipQbGF5ZXIgMSoqICAKTiA9IDMxLDY2MA==&quot;><div class='gt_from_md'><p><strong>Player 1</strong><br />
+N = 31,660</p>
+</div></div><span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;><sup>1</sup></span>" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><p><strong>Player 1</strong><br>
+N = 31,660</p>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span></th>
+<th id="<div data-qmd-base64=&quot;KipQbGF5ZXIgMioqICAKTiA9IDMxLDgyMA==&quot;><div class='gt_from_md'><p><strong>Player 2</strong><br />
+N = 31,820</p>
+</div></div><span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;&quot;><sup>1</sup></span>" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><p><strong>Player 2</strong><br>
+N = 31,820</p>
+<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">white</td>
+<td class="gt_row gt_center" headers="n">63,480</td>
+<td class="gt_row gt_center" headers="stat_1"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_2"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Player 1</td>
+<td class="gt_row gt_center" headers="n"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_1">16,451 (52%)</td>
+<td class="gt_row gt_center" headers="stat_2">15,488 (49%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Player 2</td>
+<td class="gt_row gt_center" headers="n"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_1">15,209 (48%)</td>
+<td class="gt_row gt_center" headers="stat_2">16,332 (51%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">log_odds</td>
+<td class="gt_row gt_center" headers="n">63,480</td>
+<td class="gt_row gt_center" headers="stat_1">0.16 (-0.03, 0.37)</td>
+<td class="gt_row gt_center" headers="stat_2">-0.16 (-0.36, 0.03)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">average_ratings</td>
+<td class="gt_row gt_center" headers="n">63,480</td>
+<td class="gt_row gt_center" headers="stat_1">1,249 (979, 1,516)</td>
+<td class="gt_row gt_center" headers="stat_2">1,255 (988, 1,528)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">time_class</td>
+<td class="gt_row gt_center" headers="n">63,480</td>
+<td class="gt_row gt_center" headers="stat_1"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_2"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;bullet</td>
+<td class="gt_row gt_center" headers="n"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_1">10,842 (34%)</td>
+<td class="gt_row gt_center" headers="stat_2">10,885 (34%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;blitz</td>
+<td class="gt_row gt_center" headers="n"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_1">13,802 (44%)</td>
+<td class="gt_row gt_center" headers="stat_2">13,863 (44%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;rapid</td>
+<td class="gt_row gt_center" headers="n"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_1">6,099 (19%)</td>
+<td class="gt_row gt_center" headers="stat_2">6,157 (19%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;daily</td>
+<td class="gt_row gt_center" headers="n"><br>
+</td>
+<td class="gt_row gt_center" headers="stat_1">917 (2.9%)</td>
+<td class="gt_row gt_center" headers="stat_2">915 (2.9%)</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="odd">
+<td colspan="4" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height: 0;"><sup>1</sup></span>
+<p>n (%); Median (Q1, Q3)</p></td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+<p><span class="math display">\[
+logit(p) \sim p1\_wht+lg\_odds+avg\_rting +\\ p1\_white*log\_odds + p1\_wht*avg\_rting + lg\_odds*avg\_rting
+\]</span> # Last Visualisations</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(winner) <span class="sc">%&gt;%</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">Percentage =</span> <span class="fu">n</span>() <span class="sc">*</span> <span class="dv">100</span> <span class="sc">/</span> <span class="fu">nrow</span>(dat), <span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(winner, Percentage, <span class="at">fill =</span> winner)) <span class="sc">+</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">list</span>(</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"white"</span> <span class="ot">=</span> <span class="st">"white"</span>,</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"black"</span> <span class="ot">=</span> <span class="st">"black"</span>,</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"draw"</span> <span class="ot">=</span> <span class="st">"grey50"</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Percentage of Wins"</span>) <span class="sc">+</span> <span class="fu">theme</span>(</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"Cabin"</span>, <span class="at">colour =</span> <span class="st">"#4C3232"</span>),</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> ggtext<span class="sc">::</span><span class="fu">element_textbox_simple</span>(</span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">16</span>,</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">12</span>, <span class="dv">0</span>)</span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="st">"OPTIAuvantGothic-DemiBold"</span>,</span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">24</span>,</span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>            <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> <span class="st">"#200000"</span>,</span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">12</span>, <span class="dv">0</span>, <span class="dv">12</span>, <span class="dv">0</span>)</span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">"#4C3232"</span>)</span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.02</span>))) <span class="sc">+</span></span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a>    ggtext<span class="sc">::</span><span class="fu">geom_textbox</span>(</span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(</span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a>            <span class="at">label =</span> <span class="fu">paste0</span>(</span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a>                <span class="st">"&lt;span style='font-size:32pt'&gt;&lt;br&gt;"</span>,</span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(Percentage, <span class="dv">2</span>),</span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a>                <span class="st">"% &lt;br&gt;&lt;/span&gt;"</span>,</span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>                winner, <span class="st">" wins    "</span></span>
+<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a>            ),</span>
+<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span>  <span class="fu">case_when</span>(Percentage <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="dv">0</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">1</span>),</span>
+<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a>            <span class="at">halign =</span> <span class="fu">case_when</span>(Percentage <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="dv">0</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">1</span>),</span>
+<span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> <span class="fu">case_when</span>(Percentage <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"#4C3232"</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"grey50"</span>)</span>
+<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb57-43"><a href="#cb57-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">vjust =</span> <span class="fl">0.35</span>,</span>
+<span id="cb57-44"><a href="#cb57-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="cn">NA</span>,</span>
+<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">box.colour =</span> <span class="cn">NA</span>,</span>
+<span id="cb57-46"><a href="#cb57-46" aria-hidden="true" tabindex="-1"></a>        <span class="at">family =</span> <span class="st">"Cabin"</span>,</span>
+<span id="cb57-47"><a href="#cb57-47" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">7</span>,</span>
+<span id="cb57-48"><a href="#cb57-48" aria-hidden="true" tabindex="-1"></a>        <span class="at">fontface =</span> <span class="st">"bold"</span></span>
+<span id="cb57-49"><a href="#cb57-49" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb57-50"><a href="#cb57-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_identity</span>() <span class="sc">+</span></span>
+<span id="cb57-51"><a href="#cb57-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb57-52"><a href="#cb57-52" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-53"><a href="#cb57-53" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
+<span id="cb57-54"><a href="#cb57-54" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-55"><a href="#cb57-55" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-56"><a href="#cb57-56" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb57-57"><a href="#cb57-57" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="st">"white"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+not found in Windows font database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font family not found in Windows font database</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> </span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(white_rating, black_rating)) <span class="sc">+</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-28-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="dv">1000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">average_rating =</span> (white_rating <span class="sc">+</span> black_rating) <span class="sc">*</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(white_rating, black_rating)) <span class="sc">+</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"White Player Elo Rating"</span>,</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="st">"Black Player Elo Rating"</span>,</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"Black vs White Ratings"</span>,</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">"Most People Play Against Similarly Rated"</span></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"firebrick"</span>, <span class="at">linewidth =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-28-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">white_win =</span> <span class="fu">ifelse</span>(winner <span class="sc">==</span> <span class="st">"white"</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(time_class, white_win)) <span class="sc">+</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>) <span class="sc">+</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> mean_cl_boot,</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">geom =</span> <span class="st">"errorbar"</span>,</span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>) <span class="sc">+</span></span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">"Observed Probabilty of White Wins"</span>) <span class="sc">+</span> </span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Proportions of White Wins"</span>, <span class="at">subtitle =</span> <span class="st">"Sample Average and Confidence Interval "</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-28-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> </span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">ends_with</span>(<span class="st">"rating"</span>),</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"player"</span>,</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"rating"</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(</span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(rating, time_class, <span class="at">fill =</span> player)) <span class="sc">+</span> </span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#333"</span>, <span class="st">"#fff"</span>)) <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Elo Rating"</span>, <span class="at">title =</span> <span class="st">"Distribution of Ratings"</span>) <span class="sc">+</span> </span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-28-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_models</span>(mods) <span class="sc">+</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_discrete</span>(<span class="at">name =</span> <span class="st">"Model"</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>))<span class="sc">+</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Estimates and CI across 3 Models"</span>) <span class="sc">+</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    viridis<span class="sc">::</span><span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> T) <span class="sc">+</span> </span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>,  <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for colour is already present.
+Adding another scale for colour, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Simplified_Document_files/figure-html/unnamed-chunk-28-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
           });
         }
-      });
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
-  </script>
-</body>
-</html>
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
